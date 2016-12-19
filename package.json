@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "webpack",
+    "watch" : "webpack --watch"
   },
   "author": "Eric Zolayvar",
   "license": "MIT",

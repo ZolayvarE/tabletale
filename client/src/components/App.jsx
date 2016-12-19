@@ -1,23 +1,21 @@
 import React from 'react';
+import { Router, Route, Link, browserHistory } from 'react-router';
+import NavBar from './Navbar.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: 'Oh shit, he\'s coming!'
+      message: 'I\'m a stateful component!'
     };
-  }
-
-  componentDidMount () {
-    var context = this;
-    setTimeout(() => {
-      context.setState({message: 'Hey man! Nothing suspicious going on here!'});
-    }, 150);
   }
 
   render() {
     return (
-      <div>{ this.state.message }</div>
+      <div>
+        { this.state.message }
+      </div>
     );
   }
 

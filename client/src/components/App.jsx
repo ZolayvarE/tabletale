@@ -6,7 +6,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: 'I am a default message.'
+      message: 'I am a stateful component, yo!'
     };
   }
 

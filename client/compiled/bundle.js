@@ -26528,7 +26528,7 @@
 	    _react2.default.createElement(
 	      'p',
 	      null,
-	      'This page was coded by Eric Zolayvar using React'
+	      'This page was coded using React'
 	    )
 	  );
 	};

@@ -7,7 +7,7 @@
     "start": "nodemon server/index.js",
     "compile": "webpack",
     "watch" : "webpack --watch",
-    "deploy": "git checkout master && ((git add . && git commit -m 'Redeploying...') || true) && git push origin master && git checkout deploy && git pull origin master  && webpack --optimize-minimize && ((git add . && git commit -m 'Minifying...') || true) && git push heroku deploy:master -f && git checkout master"
+    "deploy": "git checkout master && ((git add . && git commit -m 'Redeploying...') || true) && git push origin master && git checkout deploy && git merge master && webpack --optimize-minimize && ((git add . && git commit -m 'Minifying...') || true) && git push heroku deploy:master -f && git checkout master"
   },
   "author": "Eric Zolayvar",
   "license": "MIT",

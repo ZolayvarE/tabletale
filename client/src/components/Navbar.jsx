@@ -5,7 +5,7 @@ var NavBar = (props) => {
     <div>
       <header>
         <nav>
-          <a >I'm a NavBar, dad!</a>
+          <a >I'm a NavBar!</a>
         </nav>
       </header>
     </div>

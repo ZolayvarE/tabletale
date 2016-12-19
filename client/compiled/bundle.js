@@ -21491,6 +21491,14 @@
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
+	var _About = __webpack_require__(235);
+
+	var _About2 = _interopRequireDefault(_About);
+
+	var _Home = __webpack_require__(236);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21519,7 +21527,14 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        this.state.message
+	        _react2.default.createElement(_Navbar2.default, { routes: this.state.routes }),
+	        _react2.default.createElement(
+	          _reactRouter.Router,
+	          { history: _reactRouter.browserHistory },
+	          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _About2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: '*', component: _Home2.default })
+	        )
 	      );
 	    }
 	  }]);
@@ -26448,6 +26463,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(179);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var NavBar = function NavBar(props) {
@@ -26461,9 +26478,19 @@
 	        'nav',
 	        null,
 	        _react2.default.createElement(
-	          'a',
+	          _reactRouter.Link,
+	          { href: '/' },
+	          'Home'
+	        ),
+	        _react2.default.createElement(
+	          'span',
 	          null,
-	          'I\'m a NavBar!'
+	          ' | '
+	        ),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { href: '/about' },
+	          'About'
 	        )
 	      )
 	    )
@@ -26471,6 +26498,68 @@
 	};
 
 	exports.default = NavBar;
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var About = function About() {
+
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'h3',
+	      null,
+	      'About'
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      'This page was coded by Eric Zolayvar using React'
+	    )
+	  );
+	};
+
+	exports.default = About;
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Home = function Home() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    'This is the homepage!'
+	  );
+	};
+
+	exports.default = Home;
 
 /***/ }
 /******/ ]);

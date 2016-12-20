@@ -6,9 +6,9 @@ var NavBar = (props) => {
     <div>
       <header>
         <nav>
-          <Link href='/' >Home</Link>
+          <Link to='/' >Home</Link>
           <span> | </span>
-          <Link href='/about' >About</Link>
+          <Link to='/about' >About</Link>
         </nav>
       </header>
     </div>

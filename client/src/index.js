@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './stylesheets/body.css';
 import ReactDOM from 'react-dom';
 import { Router, IndexRoute, Route, Link, browserHistory } from 'react-router';
 import App from './components/App.jsx';

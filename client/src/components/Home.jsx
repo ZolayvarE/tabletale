@@ -2,9 +2,11 @@ import React from 'react';
 
 var Home = (props) => {
   return (
-    <div>
-      <center>What room would you like to join?</center>
-      <center><input type="text" ></input></center>
+    <div className="Home">
+      <div className="RoomSelect">
+        <div>What room would you like to join?</div>
+        <input type="text" ></input>
+      </div>
     </div>
   );
 };

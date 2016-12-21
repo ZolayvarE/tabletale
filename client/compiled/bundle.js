@@ -26567,15 +26567,15 @@
 	var Home = function Home(props) {
 	  return _react2.default.createElement(
 	    "div",
-	    null,
+	    { className: "Home" },
 	    _react2.default.createElement(
-	      "center",
-	      null,
-	      "What room would you like to join?"
-	    ),
-	    _react2.default.createElement(
-	      "center",
-	      null,
+	      "div",
+	      { className: "RoomSelect" },
+	      _react2.default.createElement(
+	        "div",
+	        null,
+	        "What room would you like to join?"
+	      ),
 	      _react2.default.createElement("input", { type: "text" })
 	    )
 	  );

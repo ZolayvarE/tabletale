@@ -3,14 +3,8 @@ import { Link } from 'react-router';
 
 var NavBar = (props) => {
   return (
-    <div>
-      <header>
-        <nav>
-          <Link to='/' >Home</Link>
-          <span> | </span>
-          <Link to='/about' >About</Link>
-        </nav>
-      </header>
+    <div className='NavBar'>
+      <Link to='/' ><h1 className='Logo'>Tabletale</h1></Link>
     </div>
   );
 };

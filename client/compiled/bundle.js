@@ -26497,28 +26497,14 @@
 	var NavBar = function NavBar(props) {
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    { className: 'NavBar' },
 	    _react2.default.createElement(
-	      'header',
-	      null,
+	      _reactRouter.Link,
+	      { to: '/' },
 	      _react2.default.createElement(
-	        'nav',
-	        null,
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/' },
-	          'Home'
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          null,
-	          ' | '
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/about' },
-	          'About'
-	        )
+	        'h1',
+	        { className: 'Logo' },
+	        'Tabletale'
 	      )
 	    )
 	  );

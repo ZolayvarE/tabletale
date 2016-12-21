@@ -26428,6 +26428,10 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
+	var _dice = __webpack_require__(287);
+
+	var _dice2 = _interopRequireDefault(_dice);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26445,7 +26449,8 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	    _this.state = {
-	      message: 'I am a stateful component!'
+	      message: 'I am a stateful component!',
+	      rolls: []
 	    };
 	    return _this;
 	  }
@@ -26457,6 +26462,7 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(_Navbar2.default, null),
+	        this.state.rolls,
 	        this.props.children
 	      );
 	    }
@@ -26628,6 +26634,91 @@
 	};
 
 	exports.default = Home;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var operators = {
+	  ascending: function ascending(input) {
+	    return input.sort(function (a, b) {
+	      return a - b;
+	    });
+	  },
+	  descending: function descending(input) {
+	    return input.sort(function (a, b) {
+	      return b - a;
+	    });
+	  },
+	  sum: function sum(input) {
+	    return input.reduce(function (sum, current) {
+	      return sum + current;
+	    });
+	  },
+	  max: function max(input) {
+	    return Math.max.apply(null, input);
+	  },
+	  maximum: function maximum(input) {
+	    return operators.max(input);
+	  },
+	  min: function min(input) {
+	    return Math.min.apply(null, input);
+	  },
+	  minimum: function minimum(input) {
+	    return operators.min(input);
+	  },
+	  range: function range(input) {
+	    return Math.abs(Math.max.apply(null, results) - Math.min.apply(null, results));
+	  },
+	  height: function height(input) {
+	    return operators.max(input);
+	  },
+	  width: function width(input) {
+	    var results = {};
+	    input.forEach(function (element) {
+	      results[element] = results[element] + 1 || 1;
+	    });
+
+	    var max = 0;
+	    for (var key in results) {
+	      if (results[key] > max) {
+	        max = results[key];
+	      }
+	    }
+
+	    return max;
+	  }
+	};
+
+	var roll = function roll(number) {
+	  return Math.ceil(Math.random() * number);
+	};
+
+	var d = function d(type, quantity, operator) {
+	  if (!quantity || quantity === 1) {
+	    return roll(type);
+	  }
+
+	  var results = [];
+	  for (var i = 0; i < quantity; i++) {
+	    results.push(roll(type));
+	  }
+
+	  if (operators[operator]) {
+	    results = operators[operator](results);
+	  }
+
+	  return results;
+	};
+
+	window.d = d;
+
+	exports.default = d;
 
 /***/ }
 /******/ ]);

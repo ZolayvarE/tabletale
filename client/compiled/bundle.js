@@ -60,15 +60,15 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Navbar = __webpack_require__(284);
+	var _Navbar = __webpack_require__(234);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _About = __webpack_require__(285);
+	var _About = __webpack_require__(235);
 
 	var _About2 = _interopRequireDefault(_About);
 
-	var _Home = __webpack_require__(286);
+	var _Home = __webpack_require__(236);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
@@ -26416,19 +26416,19 @@
 
 	var _reactRouter = __webpack_require__(178);
 
-	var _Navbar = __webpack_require__(284);
+	var _Navbar = __webpack_require__(234);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _About = __webpack_require__(285);
+	var _About = __webpack_require__(235);
 
 	var _About2 = _interopRequireDefault(_About);
 
-	var _Home = __webpack_require__(286);
+	var _Home = __webpack_require__(236);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _dice = __webpack_require__(287);
+	var _dice = __webpack_require__(237);
 
 	var _dice2 = _interopRequireDefault(_dice);
 
@@ -26449,8 +26449,7 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	    _this.state = {
-	      message: 'I am a stateful component!',
-	      rolls: []
+	      message: 'I am a stateful component!'
 	    };
 	    return _this;
 	  }
@@ -26462,7 +26461,6 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(_Navbar2.default, null),
-	        this.state.rolls,
 	        this.props.children
 	      );
 	    }
@@ -26474,57 +26472,7 @@
 	exports.default = App;
 
 /***/ },
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */,
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26574,7 +26522,7 @@
 	exports.default = NavBar;
 
 /***/ },
-/* 285 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26610,7 +26558,7 @@
 	exports.default = About;
 
 /***/ },
-/* 286 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26636,7 +26584,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 287 */
+/* 237 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -10,7 +10,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       message: 'I am a stateful component!',
-      rolls: [],
     };
   }
 
@@ -18,7 +17,6 @@ class App extends React.Component {
     return (
       <div>
         <NavBar />
-        { this.state.rolls }
         { this.props.children }
       </div>
     );

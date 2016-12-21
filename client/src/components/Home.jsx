@@ -1,9 +1,10 @@
 import React from 'react';
 
-var Home = () => {
+var Home = (props) => {
   return (
     <div>
-      This is the homepage!
+      <center>What room would you like to join?</center>
+      <center><input type="text" ></input></center>
     </div>
   );
 };

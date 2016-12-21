@@ -6,6 +6,10 @@ a {
   text-decoration: none;
 }
 
+h2 {
+  
+}
+
 .NavBar {
   display: flex;
   background-image: url('http://img10.deviantart.net/b7c7/i/2011/051/8/9/wood_grain_texture_5_by_hyenacub_stock-d3a1csq.jpg');
@@ -16,7 +20,7 @@ a {
 
 .Logo {
   color: #FFFFFF;
-  margin: 0px;
+  margin: 0px 70px 0px 70px;
   padding: 5px;
   text-shadow: 2px 2px 10px #000000;
 }

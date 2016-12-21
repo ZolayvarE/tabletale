@@ -26552,7 +26552,7 @@
 /* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -26564,11 +26564,20 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Home = function Home() {
+	var Home = function Home(props) {
 	  return _react2.default.createElement(
-	    'div',
+	    "div",
 	    null,
-	    'This is the homepage!'
+	    _react2.default.createElement(
+	      "center",
+	      null,
+	      "What room would you like to join?"
+	    ),
+	    _react2.default.createElement(
+	      "center",
+	      null,
+	      _react2.default.createElement("input", { type: "text" })
+	    )
 	  );
 	};
 

@@ -66,3 +66,31 @@ h2 {
 .RoomSelect * {
   margin: 7px 10px 7px 10px;
 }
+
+.Game {
+  font-family: 'Algreya Sans SC';
+  font-size: 18px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  top: -66px;
+  padding: 0px;
+  height: 100%;
+}
+
+.GameMenu {
+  position: relative;
+  margin-top: 66px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 90%;
+  height: 80%;
+  background-image: url('../assets/paper-background.png');
+  background-size: cover;
+}
+
+
+
+

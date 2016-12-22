@@ -5,6 +5,7 @@ import App from './components/App.jsx';
 import NavBar from './components/Navbar.jsx';
 import About from './components/About.jsx';
 import Home from './components/Home.jsx';
+import Game from './components/Game.jsx';
 
 ReactDOM.render(
 
@@ -12,7 +13,7 @@ ReactDOM.render(
     <Route path='/' component={ App }>
       <IndexRoute component={ Home } />
       <Route path='/about' component={ About } />
-      <Route path='*' component={ Home } />
+      <Route path='/:roomname' component={ Game } />
     </Route>
   </Router>
 

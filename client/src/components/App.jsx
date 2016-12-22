@@ -15,7 +15,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="ReactRoot">
         <NavBar />
         { this.props.children }
       </div>

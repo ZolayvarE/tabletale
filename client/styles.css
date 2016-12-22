@@ -1,4 +1,9 @@
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0px;
   background-image: url('http://img10.deviantart.net/b7c7/i/2011/051/8/9/wood_grain_texture_5_by_hyenacub_stock-d3a1csq.jpg');
   background-size: cover;
@@ -10,6 +15,14 @@ a {
 
 h2 {
   
+}
+
+#app {
+  height: 100%;
+}
+
+#ReactRoot {
+  height: 100%;
 }
 
 .NavBar {
@@ -26,22 +39,30 @@ h2 {
 }
 
 .Home {
+  font-family: 'Algreya Sans SC';
+  font-size: 18px;
+  position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  top: -66px;
+  padding: 0px;
+  height: 100%;
 }
 
 .RoomSelect {
+  margin: 66px;
+  position: relative;
   display: flex;
-  width: 90%;
-  height: 90%;
   border: 2px solid black;
+  border-radius: 10px;
   background-color: #FFFFFF;
-  align-items: space-around;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
+  box-shadow: 2px 2px 10px black;
 }
 
 .RoomSelect * {
-  margin: 10px;
+  margin: 7px 10px 7px 10px;
 }

@@ -26464,7 +26464,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { id: 'ReactRoot' },
 	        _react2.default.createElement(_Navbar2.default, null),
 	        this.props.children
 	      );

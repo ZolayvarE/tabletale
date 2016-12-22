@@ -85,8 +85,8 @@ h2 {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  width: 90%;
-  height: 80%;
+  width: 50%;
+  height: 85%;
   background-image: url('../assets/paper-background.png');
   background-size: cover;
 }

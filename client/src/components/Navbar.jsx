@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 var NavBar = (props) => {
   return (
     <div className='NavBar'>
-      <Link to='/' ><h1 className='Logo'>Tabletale</h1></Link>
+      <h1 className='Logo'><Link to='/' >Tabletale</Link></h1>
     </div>
   );
 };

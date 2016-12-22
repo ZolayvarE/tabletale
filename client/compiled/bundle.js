@@ -85,6 +85,7 @@
 	    _reactRouter.Route,
 	    { path: '/', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _About2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/:roomname', component: _Game2.default })
 	  )
@@ -26503,11 +26504,11 @@
 	    'div',
 	    { className: 'NavBar' },
 	    _react2.default.createElement(
-	      _reactRouter.Link,
-	      { to: '/' },
+	      'h1',
+	      { className: 'Logo' },
 	      _react2.default.createElement(
-	        'h1',
-	        { className: 'Logo' },
+	        _reactRouter.Link,
+	        { to: '/' },
 	        'Tabletale'
 	      )
 	    )
@@ -26611,8 +26612,7 @@
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: this.joinRoom },
-	            _react2.default.createElement('input', { type: 'text', id: 'roomNameField' }),
-	            _react2.default.createElement('input', { type: 'submit' })
+	            _react2.default.createElement('input', { type: 'text', id: 'roomNameField' })
 	          )
 	        )
 	      );

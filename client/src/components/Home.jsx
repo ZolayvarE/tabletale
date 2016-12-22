@@ -21,7 +21,6 @@ class Home extends React.Component {
           <div>What room would you like to join?</div>
           <form onSubmit={ this.joinRoom }>
             <input type="text" id="roomNameField"></input>
-            <input type="submit"></input>
           </form>
         </div>
       </div>

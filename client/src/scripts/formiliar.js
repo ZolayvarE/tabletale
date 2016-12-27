@@ -49,28 +49,24 @@ const searchStorage = (input) => {
   return storage[input] ? storage[input].value : undefined;
 };
 
-const registerComponent = (component, keys) => {
+const initializeReactComponent = (component, props, context, updater) => {
   if (component.__proto__.name === '') {
-    return (props, context, updater) => {
-      var saved = component(props, context, updater);
-      keys.forEach((key) => {
-        subscribeToValue(key, () => {
-          updater.enqueueForceUpdate(saved._owner._instance);
-        });
-      });
-      return saved;
-    };
+    return component(props, context, updater);
   } else {
-    return (props, context, updater) => {
-      var saved = new component(props, context, updater);
-      keys.forEach((key) => {
-        subscribeToValue(key, () => {
-          updater.enqueueForceUpdate(saved);
-        });
-      });
-      return saved;
-    };
+    return new component(props, context, updater);
   }
+};
+
+const registerComponent = (component, keys) => {
+  return (props, context, updater) => {
+    var saved = initializeReactComponent(component, props, context, updater);
+    keys.forEach((key) => {
+      subscribeToValue(key, () => {
+        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
+      });
+    });
+    return saved;
+  };
 };
 
 const formiliar = registerComponent;

@@ -26848,28 +26848,24 @@
 	  return storage[input] ? storage[input].value : undefined;
 	};
 
-	var registerComponent = function registerComponent(component, keys) {
+	var initializeReactComponent = function initializeReactComponent(component, props, context, updater) {
 	  if (component.__proto__.name === '') {
-	    return function (props, context, updater) {
-	      var saved = component(props, context, updater);
-	      keys.forEach(function (key) {
-	        subscribeToValue(key, function () {
-	          updater.enqueueForceUpdate(saved._owner._instance);
-	        });
-	      });
-	      return saved;
-	    };
+	    return component(props, context, updater);
 	  } else {
-	    return function (props, context, updater) {
-	      var saved = new component(props, context, updater);
-	      keys.forEach(function (key) {
-	        subscribeToValue(key, function () {
-	          updater.enqueueForceUpdate(saved);
-	        });
-	      });
-	      return saved;
-	    };
+	    return new component(props, context, updater);
 	  }
+	};
+
+	var registerComponent = function registerComponent(component, keys) {
+	  return function (props, context, updater) {
+	    var saved = initializeReactComponent(component, props, context, updater);
+	    keys.forEach(function (key) {
+	      subscribeToValue(key, function () {
+	        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
+	      });
+	    });
+	    return saved;
+	  };
 	};
 
 	var formiliar = registerComponent;

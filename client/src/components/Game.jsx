@@ -7,13 +7,17 @@ class Game extends React.Component {
     this.state = {
 
     };
+
+    console.log(this);
   }
+
+
 
   render () {
     return (
       <div className="Game">
         <div className='GameMenu'>
-          This is the game board!
+          { Math.random() }
         </div>
       </div>
     );

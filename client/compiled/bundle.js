@@ -26442,6 +26442,10 @@
 
 	var _dice2 = _interopRequireDefault(_dice);
 
+	var _formiliar = __webpack_require__(244);
+
+	var _formiliar2 = _interopRequireDefault(_formiliar);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26458,9 +26462,7 @@
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-	    _this.state = {
-	      message: 'I am a stateful component!'
-	    };
+	    _formiliar2.default.set('message', 'Hello!');
 	    return _this;
 	  }
 
@@ -26497,6 +26499,10 @@
 
 	var _reactRouter = __webpack_require__(183);
 
+	var _formiliar = __webpack_require__(244);
+
+	var _formiliar2 = _interopRequireDefault(_formiliar);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var NavBar = function NavBar(props) {
@@ -26509,13 +26515,13 @@
 	      _react2.default.createElement(
 	        _reactRouter.Link,
 	        { to: '/' },
-	        'Tabletale'
+	        _formiliar2.default.get('message')
 	      )
 	    )
 	  );
 	};
 
-	exports.default = NavBar;
+	exports.default = (0, _formiliar2.default)(NavBar, ['message']);
 
 /***/ },
 /* 240 */
@@ -26571,6 +26577,10 @@
 
 	var _reactRouter = __webpack_require__(183);
 
+	var _formiliar = __webpack_require__(244);
+
+	var _formiliar2 = _interopRequireDefault(_formiliar);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26593,7 +26603,9 @@
 	    value: function joinRoom(event) {
 	      event.preventDefault();
 	      var roomName = document.getElementById('roomNameField').value;
-	      _reactRouter.browserHistory.push(roomName);
+	      // browserHistory.push(roomName);
+	      _formiliar2.default.set('message', roomName);
+	      document.getElementById('roomNameField').value = '';
 	    }
 	  }, {
 	    key: 'render',
@@ -26610,6 +26622,11 @@
 	            'What room would you like to join?'
 	          ),
 	          _react2.default.createElement(
+	            'div',
+	            null,
+	            _formiliar2.default.get('message')
+	          ),
+	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: this.joinRoom },
 	            _react2.default.createElement('input', { type: 'text', id: 'roomNameField' })
@@ -26622,7 +26639,7 @@
 	  return Home;
 	}(_react2.default.Component);
 
-	exports.default = Home;
+	exports.default = (0, _formiliar2.default)(Home, ['message']);
 
 /***/ },
 /* 242 */
@@ -26744,6 +26761,8 @@
 	    var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
 	    _this.state = {};
+
+	    console.log(_this);
 	    return _this;
 	  }
 
@@ -26756,7 +26775,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'GameMenu' },
-	          'This is the game board!'
+	          Math.random()
 	        )
 	      );
 	    }
@@ -26766,6 +26785,100 @@
 	}(_react2.default.Component);
 
 	exports.default = Game;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var storage = {};
+
+	var validateInput = function validateInput(input, value) {
+	  if (typeof input === 'function') {
+	    throw new Error('Input cannot be a function!');
+	    return;
+	  } else if (Array.isArray(input)) {
+	    throw new Error('Input cannot be an array!');
+	    return;
+	  } else if ((typeof input === 'undefined' ? 'undefined' : _typeof(input)) !== 'object') {
+	    var validInput = {};
+	    validInput[input] = value;
+	    return validInput;
+	  } else {
+	    return input;
+	  }
+	};
+
+	var subscribeToValue = function subscribeToValue(input, callback) {
+	  if (storage[input] && storage[input].callbacks) {
+	    storage[input].callbacks.push(callback);
+	  } else {
+	    throw new Error('Could not find that item in storage');
+	  }
+	};
+
+	var _updateStorage = function _updateStorage(key, value) {
+	  if (storage[key] === undefined) {
+	    storage[key] = {
+	      value: null,
+	      callbacks: []
+	    };
+	  }
+
+	  storage[key].value = value;
+	  storage[key].callbacks.forEach(function (callback) {
+	    callback();
+	  });
+	};
+
+	var updateStorage = function updateStorage(input, value) {
+	  input = validateInput(input, value);
+	  for (var key in input) {
+	    _updateStorage(key, value);
+	  }
+	};
+
+	var searchStorage = function searchStorage(input) {
+	  return storage[input] ? storage[input].value : undefined;
+	};
+
+	var registerComponent = function registerComponent(component, keys) {
+	  if (component.__proto__.name !== 'ReactComponent') {
+	    return function (props, context, updater) {
+	      var saved = component(props, context, updater);
+	      keys.forEach(function (key) {
+	        subscribeToValue(key, function () {
+	          updater.enqueueForceUpdate(saved._owner._instance);
+	        });
+	      });
+	      return saved;
+	    };
+	  } else {
+	    return function (props, context, updater) {
+	      var saved = new component(props, context, updater);
+	      keys.forEach(function (key) {
+	        subscribeToValue(key, function () {
+	          updater.enqueueForceUpdate(saved);
+	        });
+	      });
+	      return saved;
+	    };
+	  }
+	};
+
+	var formiliar = registerComponent;
+	formiliar.set = updateStorage;
+	formiliar.get = searchStorage;
+	formiliar.register = registerComponent;
+
+	exports.default = formiliar;
 
 /***/ }
 /******/ ]);

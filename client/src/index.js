@@ -7,6 +7,7 @@ import About from './components/About.jsx';
 import Home from './components/Home.jsx';
 import Game from './components/Game.jsx';
 
+
 ReactDOM.render(
 
   <Router history={ browserHistory }>
@@ -19,8 +20,6 @@ ReactDOM.render(
   </Router>
 
 , document.getElementById('app'));
-
-
 
 
 

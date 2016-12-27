@@ -11,7 +11,6 @@ class Home extends React.Component {
   joinRoom (event) {
     event.preventDefault();
     var roomName = document.getElementById('roomNameField').value;
-    // browserHistory.push(roomName);
     formiliar.set('message', roomName);
     document.getElementById('roomNameField').value = '';
   }

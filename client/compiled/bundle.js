@@ -26603,7 +26603,6 @@
 	    value: function joinRoom(event) {
 	      event.preventDefault();
 	      var roomName = document.getElementById('roomNameField').value;
-	      // browserHistory.push(roomName);
 	      _formiliar2.default.set('message', roomName);
 	      document.getElementById('roomNameField').value = '';
 	    }
@@ -26850,7 +26849,7 @@
 	};
 
 	var registerComponent = function registerComponent(component, keys) {
-	  if (component.__proto__.name !== 'ReactComponent') {
+	  if (component.__proto__.name === '') {
 	    return function (props, context, updater) {
 	      var saved = component(props, context, updater);
 	      keys.forEach(function (key) {

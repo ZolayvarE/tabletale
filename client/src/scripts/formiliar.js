@@ -50,7 +50,7 @@ const searchStorage = (input) => {
 };
 
 const registerComponent = (component, keys) => {
-  if (component.__proto__.name !== 'ReactComponent') {
+  if (component.__proto__.name === '') {
     return (props, context, updater) => {
       var saved = component(props, context, updater);
       keys.forEach((key) => {

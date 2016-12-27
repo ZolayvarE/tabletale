@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import formiliar from '../scripts/formiliar.js';
+import formiliar from '../scripts/formiliar';
 
 class Home extends React.Component {
   constructor (props) {

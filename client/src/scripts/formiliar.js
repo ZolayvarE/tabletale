@@ -78,7 +78,7 @@ const registerComponent = (component, ...keys) => {
 const formiliar = registerComponent;
 formiliar.set = updateStorage;
 formiliar.get = searchStorage;
-formiliar.register = registerComponent;
+formiliar.subscribe = registerComponent;
 
 module.exports = formiliar;
 

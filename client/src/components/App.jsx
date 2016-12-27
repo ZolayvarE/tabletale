@@ -9,7 +9,10 @@ import formiliar from '../scripts/formiliar.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    formiliar.set('message', 'Hello!');
+    formiliar.set({
+      title: 'TableTale',
+      message: 'Hello!',
+    });
   }
 
   render() {

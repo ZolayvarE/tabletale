@@ -39,7 +39,7 @@ const _updateStorage = (key, value) => {
 const updateStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
-    _updateStorage(key, value);
+    _updateStorage(key, input[key]);
   }
 };
 

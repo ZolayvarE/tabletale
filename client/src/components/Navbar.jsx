@@ -5,9 +5,16 @@ import formiliar from '../scripts/formiliar';
 var NavBar = (props) => {
   return (
     <div className='NavBar'>
-      <h1 className='Logo'><Link to='/' >{ formiliar.get('message') }</Link></h1>
+      <h1 className='Logo'><Link to='/' >{ formiliar.get('title') }</Link></h1>
     </div>
   );
 };
 
-export default formiliar(NavBar, ['message']);
+export default formiliar(NavBar, ['title']);
+
+
+
+
+
+
+

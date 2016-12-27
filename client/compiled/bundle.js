@@ -26462,7 +26462,10 @@
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-	    _formiliar2.default.set('message', 'Hello!');
+	    _formiliar2.default.set({
+	      title: 'TableTale',
+	      message: 'Hello!'
+	    });
 	    return _this;
 	  }
 
@@ -26515,13 +26518,13 @@
 	      _react2.default.createElement(
 	        _reactRouter.Link,
 	        { to: '/' },
-	        _formiliar2.default.get('message')
+	        _formiliar2.default.get('title')
 	      )
 	    )
 	  );
 	};
 
-	exports.default = (0, _formiliar2.default)(NavBar, ['message']);
+	exports.default = (0, _formiliar2.default)(NavBar, ['title']);
 
 /***/ },
 /* 240 */
@@ -26834,7 +26837,7 @@
 	var updateStorage = function updateStorage(input, value) {
 	  input = validateInput(input, value);
 	  for (var key in input) {
-	    _updateStorage(key, value);
+	    _updateStorage(key, input[key]);
 	  }
 	};
 

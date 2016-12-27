@@ -26791,10 +26791,6 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var storage = {};
@@ -26802,10 +26798,8 @@
 	var validateInput = function validateInput(input, value) {
 	  if (typeof input === 'function') {
 	    throw new Error('Input cannot be a function!');
-	    return;
 	  } else if (Array.isArray(input)) {
 	    throw new Error('Input cannot be an array!');
-	    return;
 	  } else if ((typeof input === 'undefined' ? 'undefined' : _typeof(input)) !== 'object') {
 	    var validInput = {};
 	    validInput[input] = value;
@@ -26819,7 +26813,7 @@
 	  if (storage[input] && storage[input].callbacks) {
 	    storage[input].callbacks.push(callback);
 	  } else {
-	    throw new Error('Could not find that item in storage');
+	    throw new Error('Could not find the item: "' + input + '"" in storage');
 	  }
 	};
 
@@ -26845,7 +26839,11 @@
 	};
 
 	var searchStorage = function searchStorage(input) {
-	  return storage[input] ? storage[input].value : undefined;
+	  if (storage[input] !== undefined) {
+	    return storage[input].value;
+	  } else {
+	    console.error(new Error('Could not find the item: "' + input + '" in storage'));
+	  }
 	};
 
 	var initializeReactComponent = function initializeReactComponent(component, props, context, updater) {
@@ -26856,7 +26854,15 @@
 	  }
 	};
 
-	var registerComponent = function registerComponent(component, keys) {
+	var registerComponent = function registerComponent(component) {
+	  for (var _len = arguments.length, keys = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    keys[_key - 1] = arguments[_key];
+	  }
+
+	  if (Array.isArray(keys[0])) {
+	    keys = keys[0];
+	  }
+
 	  return function (props, context, updater) {
 	    var saved = initializeReactComponent(component, props, context, updater);
 	    keys.forEach(function (key) {
@@ -26873,7 +26879,7 @@
 	formiliar.get = searchStorage;
 	formiliar.register = registerComponent;
 
-	exports.default = formiliar;
+	module.exports = formiliar;
 
 /***/ }
 /******/ ]);

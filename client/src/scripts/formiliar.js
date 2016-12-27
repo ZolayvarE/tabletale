@@ -3,10 +3,8 @@ const storage = {};
 const validateInput = (input, value) => {
   if (typeof input === 'function') {
     throw new Error('Input cannot be a function!');
-    return;
   } else if (Array.isArray(input)) {
     throw new Error('Input cannot be an array!');
-    return;
   } else if (typeof input !== 'object') {
     var validInput = {};
     validInput[input] = value;
@@ -20,7 +18,7 @@ const subscribeToValue = (input, callback) => {
   if (storage[input] && storage[input].callbacks) {
     storage[input].callbacks.push(callback);
   } else {
-    throw new Error('Could not find that item in storage');
+    throw new Error('Could not find the item: "' + input + '"" in storage');
   }
 };
 
@@ -46,7 +44,11 @@ const updateStorage = (input, value) => {
 };
 
 const searchStorage = (input) => {
-  return storage[input] ? storage[input].value : undefined;
+  if (storage[input] !== undefined) {
+    return storage[input].value;
+  } else {
+    console.error(new Error('Could not find the item: "' + input + '" in storage'));
+  }
 };
 
 const initializeReactComponent = (component, props, context, updater) => {
@@ -57,7 +59,11 @@ const initializeReactComponent = (component, props, context, updater) => {
   }
 };
 
-const registerComponent = (component, keys) => {
+const registerComponent = (component, ...keys) => {
+  if (Array.isArray(keys[0])) {
+    keys = keys[0];
+  }
+
   return (props, context, updater) => {
     var saved = initializeReactComponent(component, props, context, updater);
     keys.forEach((key) => {
@@ -74,7 +80,7 @@ formiliar.set = updateStorage;
 formiliar.get = searchStorage;
 formiliar.register = registerComponent;
 
-export default formiliar;
+module.exports = formiliar;
 
 
 

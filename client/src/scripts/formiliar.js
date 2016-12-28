@@ -113,7 +113,7 @@ const registerComponent = (component, ...keys) => {
 const formiliar = registerComponent;
 formiliar.set = updateStorage;
 formiliar.get = searchStorage;
-formiliar.remove = 
+formiliar.remove = clearStorage;
 formiliar.retain = updatePersistentStorage;
 formiliar.forget = clearPersistentStorage;
 formiliar.subscribe = registerComponent;

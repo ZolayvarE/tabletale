@@ -26935,7 +26935,8 @@
 	var formiliar = registerComponent;
 	formiliar.set = updateStorage;
 	formiliar.get = searchStorage;
-	formiliar.remove = formiliar.retain = updatePersistentStorage;
+	formiliar.remove = clearStorage;
+	formiliar.retain = updatePersistentStorage;
 	formiliar.forget = clearPersistentStorage;
 	formiliar.subscribe = registerComponent;
 

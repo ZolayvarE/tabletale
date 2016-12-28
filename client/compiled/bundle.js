@@ -35009,6 +35009,12 @@
 	  setStorage(input, callback(storage[input].value));
 	};
 
+	var toggleStorage = function toggleStorage(input) {
+	  updateStorage(function (value) {
+	    return !value;
+	  });
+	};
+
 	var updatePersistentStorage = function updatePersistentStorage(input, value) {
 	  input = validateInput(input, value);
 	  for (var key in input) {
@@ -35065,11 +35071,11 @@
 
 	var mindful = registerComponent;
 	mindful.set = setStorage;
-	mindful.get = searchStorage;
-	mindful.update = updateStorage;
-	mindful.remove = clearStorage;
 	mindful.retain = updatePersistentStorage;
+	mindful.update = updateStorage;
+	mindful.get = searchStorage;
 	mindful.forget = clearStorage;
+	mindful.toggle = toggleStorage;
 	mindful.subscribe = registerComponent;
 
 	module.exports = mindful;

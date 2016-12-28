@@ -55,6 +55,12 @@ const updateStorage = (input, callback) => {
   setStorage(input, callback(storage[input].value));
 };
 
+const toggleStorage = function (input) {
+  updateStorage(function (value) {
+    return !value;
+  });
+};
+
 const updatePersistentStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
@@ -107,11 +113,11 @@ const registerComponent = (component, ...keys) => {
 
 const mindful = registerComponent;
 mindful.set = setStorage;
-mindful.get = searchStorage;
-mindful.update = updateStorage;
-mindful.remove = clearStorage;
 mindful.retain = updatePersistentStorage;
+mindful.update = updateStorage;
+mindful.get = searchStorage;
 mindful.forget = clearStorage;
+mindful.toggle = toggleStorage;
 mindful.subscribe = registerComponent;
 
 module.exports = mindful;

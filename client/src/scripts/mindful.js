@@ -34,20 +34,20 @@ const validateInput = (input, value) => {
   }
 };
 
-const subscribeToValue = (input, callback) => {
-  if (!storage[input]) {
-    _updateStorage(input, undefined);
-  }
-
-  if (storage[input] && storage[input].callbacks) {
-    storage[input].callbacks.push(callback);
-  }
-};
-
 const setStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
     _updateStorage(key, input[key]);
+  }
+};
+
+const subscribeToValue = (input, callback) => {
+  if (!storage[input]) {
+    setStorage(input, undefined);
+  }
+
+  if (storage[input] && storage[input].callbacks) {
+    storage[input].callbacks.push(callback);
   }
 };
 

@@ -26607,8 +26607,7 @@
 	    value: function joinRoom(event) {
 	      event.preventDefault();
 	      var roomName = document.getElementById('roomNameField').value.split(' ').map(function (word) {
-	        word = word.slice(0, 1).toUpperCase() + word.slice(1);
-	        return word;
+	        return word.slice(0, 1).toUpperCase() + word.slice(1);
 	      }).join(' ');
 
 	      if (roomName) {
@@ -34989,20 +34988,20 @@
 	  }
 	};
 
-	var subscribeToValue = function subscribeToValue(input, callback) {
-	  if (!storage[input]) {
-	    _updateStorage(input, undefined);
-	  }
-
-	  if (storage[input] && storage[input].callbacks) {
-	    storage[input].callbacks.push(callback);
-	  }
-	};
-
 	var setStorage = function setStorage(input, value) {
 	  input = validateInput(input, value);
 	  for (var key in input) {
 	    _updateStorage(key, input[key]);
+	  }
+	};
+
+	var subscribeToValue = function subscribeToValue(input, callback) {
+	  if (!storage[input]) {
+	    setStorage(input, undefined);
+	  }
+
+	  if (storage[input] && storage[input].callbacks) {
+	    storage[input].callbacks.push(callback);
 	  }
 	};
 

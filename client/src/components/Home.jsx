@@ -12,8 +12,7 @@ class Home extends React.Component {
     var roomName = document.getElementById('roomNameField').value
       .split(' ')
       .map(function (word) {
-        word = word.slice(0, 1).toUpperCase() + word.slice(1);
-        return word;
+        return word.slice(0, 1).toUpperCase() + word.slice(1);
       })
       .join(' ');
 

@@ -9,10 +9,15 @@ import formiliar from '../scripts/formiliar';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    formiliar.set({
-      title: 'TableTale',
-      message: 'Hello!',
-    });
+  }
+
+  componentWillMount() {
+    if (localStorage.roomName) {
+      formiliar.set('roomName', localStorage.roomName);
+      browserHistory.push(localStorage.roomName);
+    } else {
+      formiliar.set('roomName', 'TableTale');
+    }
   }
 
   render() {

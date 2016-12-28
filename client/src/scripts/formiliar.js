@@ -18,7 +18,7 @@ const subscribeToValue = (input, callback) => {
   if (storage[input] && storage[input].callbacks) {
     storage[input].callbacks.push(callback);
   } else {
-    throw new Error('Could not find the item: "' + input + '"" in storage');
+    throw new Error('Could not find the item: "' + input + '" in storage');
   }
 };
 
@@ -43,6 +43,24 @@ const updateStorage = (input, value) => {
   }
 };
 
+const updatePersistentStorage = (input, value) => {
+  input = validateInput(input, value);
+  for (var key in input) {
+    _updateStorage(key, input[key]);
+    persistentStorage[key] = input[key];
+  }
+  localStorage.formiliar = JSON.stringify(persistentStorage);
+};
+
+const clearPersistentStorage = (input) => {
+  if (input === undefined) {
+    localStorage.removeItem('formiliar');
+  } else {
+    delete persistentStorage[input];
+    localStorage.formiliar = JSON.stringify(persistentStorage);
+  }
+};
+
 const searchStorage = (input) => {
   if (storage[input] !== undefined) {
     return storage[input].value;
@@ -52,7 +70,7 @@ const searchStorage = (input) => {
 };
 
 const initializeReactComponent = (component, props, context, updater) => {
-  if (component.__proto__.name === '') {
+  if (!component.__proto__.name) {
     return component(props, context, updater);
   } else {
     return new component(props, context, updater);
@@ -81,6 +99,7 @@ formiliar.get = searchStorage;
 formiliar.subscribe = registerComponent;
 
 module.exports = formiliar;
+
 
 
 

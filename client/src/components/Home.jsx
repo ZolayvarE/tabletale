@@ -11,17 +11,17 @@ class Home extends React.Component {
   joinRoom (event) {
     event.preventDefault();
     var roomName = document.getElementById('roomNameField').value;
-    formiliar.set('message', roomName);
+    formiliar.set('roomName', roomName);
+    localStorage.roomName = roomName;
     document.getElementById('roomNameField').value = '';
+    browserHistory.push(roomName);
   }
-
 
   render () {
     return (
       <div className="Home">
         <div className="RoomSelect">
           <div>What room would you like to join?</div>
-          <div>{ formiliar.get('message') }</div>
           <form onSubmit={ this.joinRoom }>
             <input type="text" id="roomNameField"></input>
           </form>
@@ -31,4 +31,9 @@ class Home extends React.Component {
   }
 }
 
-export default formiliar(Home, ['message']);
+export default Home;
+
+
+
+
+

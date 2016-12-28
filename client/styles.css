@@ -75,23 +75,20 @@ a {
   font-size: 18px;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: flex-start;
-  top: -66px;
-  padding: 0px;
   height: 100%;
 }
 
-.GameMenu {
+.Paper {
   position: relative;
-  margin-top: 66px;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  width: 50%;
-  height: 85%;
-  background-image: url('../assets/paper-background.png');
-  background-size: cover;
+  margin-top: 0px;
+  margin-bottom: 15px;
+  width: 60%;
+}
+
+.Chat {
+  width: 30%;
 }
 
 

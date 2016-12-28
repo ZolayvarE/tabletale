@@ -1,5 +1,25 @@
 const storage = {};
 
+const persistentStorage = JSON.parse(localStorage.formiliar || '{}') || {};
+
+const _updateStorage = (key, value) => {
+  if (storage[key] === undefined) {
+    storage[key] = {
+      value: null,
+      callbacks: [],
+    };
+  }
+
+  storage[key].value = value;
+  storage[key].callbacks.forEach((callback) => {
+    callback();
+  });
+};
+
+for (var key in persistentStorage) {
+  _updateStorage(key, persistentStorage[key]);
+}
+
 const validateInput = (input, value) => {
   if (typeof input === 'function') {
     throw new Error('Input cannot be a function!');
@@ -22,20 +42,6 @@ const subscribeToValue = (input, callback) => {
   }
 };
 
-const _updateStorage = (key, value) => {
-  if (storage[key] === undefined) {
-    storage[key] = {
-      value: null,
-      callbacks: [],
-    };
-  }
-
-  storage[key].value = value;
-  storage[key].callbacks.forEach((callback) => {
-    callback();
-  });
-};
-
 const updateStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
@@ -55,6 +61,9 @@ const updatePersistentStorage = (input, value) => {
 const clearPersistentStorage = (input) => {
   if (input === undefined) {
     localStorage.removeItem('formiliar');
+    for (var key in persistentStorage) {
+      delete persistentStorage[key];
+    }
   } else {
     delete persistentStorage[input];
     localStorage.formiliar = JSON.stringify(persistentStorage);
@@ -66,6 +75,14 @@ const searchStorage = (input) => {
     return storage[input].value;
   } else {
     console.error(new Error('Could not find the item: "' + input + '" in storage'));
+  }
+};
+
+const clearStorage = (input) => {
+  if (storage[input]) {
+    delete storage[input];
+  } else if (persistentStorage[input]) {
+    delete persistentStorage[input];
   }
 };
 
@@ -96,6 +113,7 @@ const registerComponent = (component, ...keys) => {
 const formiliar = registerComponent;
 formiliar.set = updateStorage;
 formiliar.get = searchStorage;
+formiliar.remove = 
 formiliar.retain = updatePersistentStorage;
 formiliar.forget = clearPersistentStorage;
 formiliar.subscribe = registerComponent;

@@ -26818,6 +26818,26 @@
 
 	var storage = {};
 
+	var persistentStorage = JSON.parse(localStorage.formiliar || '{}') || {};
+
+	var _updateStorage = function _updateStorage(key, value) {
+	  if (storage[key] === undefined) {
+	    storage[key] = {
+	      value: null,
+	      callbacks: []
+	    };
+	  }
+
+	  storage[key].value = value;
+	  storage[key].callbacks.forEach(function (callback) {
+	    callback();
+	  });
+	};
+
+	for (var key in persistentStorage) {
+	  _updateStorage(key, persistentStorage[key]);
+	}
+
 	var validateInput = function validateInput(input, value) {
 	  if (typeof input === 'function') {
 	    throw new Error('Input cannot be a function!');
@@ -26840,20 +26860,6 @@
 	  }
 	};
 
-	var _updateStorage = function _updateStorage(key, value) {
-	  if (storage[key] === undefined) {
-	    storage[key] = {
-	      value: null,
-	      callbacks: []
-	    };
-	  }
-
-	  storage[key].value = value;
-	  storage[key].callbacks.forEach(function (callback) {
-	    callback();
-	  });
-	};
-
 	var updateStorage = function updateStorage(input, value) {
 	  input = validateInput(input, value);
 	  for (var key in input) {
@@ -26873,6 +26879,9 @@
 	var clearPersistentStorage = function clearPersistentStorage(input) {
 	  if (input === undefined) {
 	    localStorage.removeItem('formiliar');
+	    for (var key in persistentStorage) {
+	      delete persistentStorage[key];
+	    }
 	  } else {
 	    delete persistentStorage[input];
 	    localStorage.formiliar = JSON.stringify(persistentStorage);
@@ -26884,6 +26893,14 @@
 	    return storage[input].value;
 	  } else {
 	    console.error(new Error('Could not find the item: "' + input + '" in storage'));
+	  }
+	};
+
+	var clearStorage = function clearStorage(input) {
+	  if (storage[input]) {
+	    delete storage[input];
+	  } else if (persistentStorage[input]) {
+	    delete persistentStorage[input];
 	  }
 	};
 
@@ -26918,7 +26935,7 @@
 	var formiliar = registerComponent;
 	formiliar.set = updateStorage;
 	formiliar.get = searchStorage;
-	formiliar.retain = updatePersistentStorage;
+	formiliar.remove = formiliar.retain = updatePersistentStorage;
 	formiliar.forget = clearPersistentStorage;
 	formiliar.subscribe = registerComponent;
 

@@ -26606,7 +26606,11 @@
 	    key: 'joinRoom',
 	    value: function joinRoom(event) {
 	      event.preventDefault();
-	      var roomName = document.getElementById('roomNameField').value;
+	      var roomName = document.getElementById('roomNameField').value.split(' ').map(function (word) {
+	        word = word.slice(0, 1).toUpperCase() + word.slice(1);
+	        return word;
+	      }).join(' ');
+
 	      if (roomName) {
 	        document.getElementById('roomNameField').value = '';
 	        _mindful2.default.retain('roomName', roomName);

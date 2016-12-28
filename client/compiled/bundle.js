@@ -34970,7 +34970,7 @@
 	  }
 	};
 
-	var _updateStorage = function _updateStorage(key, value) {
+	var _upsert = function _upsert(key, value) {
 	  if (storage[key] === undefined) {
 	    storage[key] = {
 	      value: value,
@@ -34984,16 +34984,22 @@
 	  }
 	};
 
-	var setStorage = function setStorage(input, value) {
+	var setValueInStorage = function setValueInStorage(input, value) {
 	  input = validateInput(input, value);
 	  for (var key in input) {
-	    _updateStorage(key, input[key]);
+	    _upsert(key, input[key]);
+	  }
+	};
+
+	var searchForValueInStorage = function searchForValueInStorage(input) {
+	  if (storage[input] !== undefined) {
+	    return storage[input].value;
 	  }
 	};
 
 	var subscribeToValue = function subscribeToValue(input, callback) {
 	  if (!storage[input]) {
-	    setStorage(input, undefined);
+	    setValueInStorage(input, undefined);
 	  }
 
 	  if (storage[input] && storage[input].callbacks) {
@@ -35001,34 +35007,30 @@
 	  }
 	};
 
-	var updateStorage = function updateStorage(input, callback) {
-	  setStorage(input, callback(storage[input].value));
+	var updateValueInStorage = function updateValueInStorage(input, callback) {
+	  var oldValue = searchForValueInStorage(input);
+	  var newValue = callback(oldValue);
+	  setValueInStorage(input, newValue);
 	};
 
-	var toggleStorage = function toggleStorage(input) {
-	  updateStorage(function (value) {
+	var toggleValueInStorage = function toggleValueInStorage(input) {
+	  updateValueInStorage(function (value) {
 	    return !value;
 	  });
 	};
 
-	var updatePersistentStorage = function updatePersistentStorage(input, value) {
+	var setPersistentStorage = function setPersistentStorage(input, value) {
 	  input = validateInput(input, value);
 	  for (var key in input) {
-	    _updateStorage(key, input[key]);
+	    _upsert(key, input[key]);
 	    persistentStorage[key] = input[key];
 	  }
 	  localStorage.mindful = JSON.stringify(persistentStorage);
 	};
 
-	var searchStorage = function searchStorage(input) {
-	  if (storage[input] !== undefined) {
-	    return storage[input].value;
-	  }
-	};
-
-	var clearStorage = function clearStorage(input) {
+	var clearValueFromStorage = function clearValueFromStorage(input) {
 	  if (storage[input]) {
-	    setStorage(input, undefined);
+	    setValueInStorage(input, undefined);
 	  }
 
 	  if (persistentStorage[input]) {
@@ -35065,15 +35067,15 @@
 	  };
 	};
 
-	setStorage(persistentStorage);
+	setValueInStorage(persistentStorage);
 
 	var mindful = registerComponent;
-	mindful.set = setStorage;
-	mindful.retain = updatePersistentStorage;
-	mindful.update = updateStorage;
-	mindful.get = searchStorage;
-	mindful.forget = clearStorage;
-	mindful.toggle = toggleStorage;
+	mindful.set = setValueInStorage;
+	mindful.get = searchForValueInStorage;
+	mindful.retain = setPersistentStorage;
+	mindful.update = updateValueInStorage;
+	mindful.forget = clearValueFromStorage;
+	mindful.toggle = toggleValueInStorage;
 	mindful.subscribe = registerComponent;
 
 	module.exports = mindful;

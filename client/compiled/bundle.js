@@ -35073,8 +35073,8 @@
 	mindful.set = setValueInStorage;
 	mindful.get = searchForValueInStorage;
 	mindful.retain = setPersistentStorage;
-	mindful.update = updateValueInStorage;
 	mindful.forget = clearValueFromStorage;
+	mindful.update = updateValueInStorage;
 	mindful.toggle = toggleValueInStorage;
 	mindful.subscribe = registerComponent;
 

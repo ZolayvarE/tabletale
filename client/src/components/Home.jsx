@@ -11,10 +11,12 @@ class Home extends React.Component {
   joinRoom (event) {
     event.preventDefault();
     var roomName = document.getElementById('roomNameField').value;
-    formiliar.set('roomName', roomName);
-    localStorage.roomName = roomName;
     document.getElementById('roomNameField').value = '';
-    browserHistory.push(roomName);
+    if (roomName) {
+      formiliar.set('roomName', roomName);
+      localStorage.roomName = roomName;
+      browserHistory.push(roomName);
+    }
   }
 
   render () {

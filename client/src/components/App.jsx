@@ -15,8 +15,6 @@ class App extends React.Component {
     if (localStorage.roomName) {
       formiliar.set('roomName', localStorage.roomName);
       browserHistory.push(localStorage.roomName);
-    } else {
-      formiliar.set('roomName', 'TableTale');
     }
   }
 

@@ -26469,8 +26469,6 @@
 	      if (localStorage.roomName) {
 	        _formiliar2.default.set('roomName', localStorage.roomName);
 	        _reactRouter.browserHistory.push(localStorage.roomName);
-	      } else {
-	        _formiliar2.default.set('roomName', 'TableTale');
 	      }
 	    }
 	  }, {
@@ -26521,11 +26519,8 @@
 	      { className: 'Logo' },
 	      _react2.default.createElement(
 	        _reactRouter.Link,
-	        { to: '/', onClick: function onClick() {
-	            _formiliar2.default.set('roomName', 'TableTale');
-	            localStorage.removeItem('roomName');
-	          } },
-	        _formiliar2.default.get('roomName')
+	        { to: '/' },
+	        'TableTale'
 	      )
 	    )
 	  );
@@ -26613,10 +26608,12 @@
 	    value: function joinRoom(event) {
 	      event.preventDefault();
 	      var roomName = document.getElementById('roomNameField').value;
-	      _formiliar2.default.set('roomName', roomName);
-	      localStorage.roomName = roomName;
 	      document.getElementById('roomNameField').value = '';
-	      _reactRouter.browserHistory.push(roomName);
+	      if (roomName) {
+	        _formiliar2.default.set('roomName', roomName);
+	        localStorage.roomName = roomName;
+	        _reactRouter.browserHistory.push(roomName);
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -26778,11 +26775,17 @@
 	  _createClass(Game, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      if (_formiliar2.default.get('roomName') === undefined || _formiliar2.default.get('roomName') === 'TableTale') {
+	      if (!_formiliar2.default.get('roomName')) {
 	        _reactRouter.browserHistory.push('/');
 	      } else {
 	        _formiliar2.default.set('socket', _socket2.default);
 	      }
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _formiliar2.default.set('roomName', undefined);
+	      localStorage.removeItem('roomName');
 	    }
 	  }, {
 	    key: 'render',
@@ -26790,7 +26793,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'Game' },
-	        _react2.default.createElement('img', { src: '../assets/paper-background.png', className: 'Paper' }),
+	        _react2.default.createElement('canvas', { className: 'Paper' }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'Chat' },

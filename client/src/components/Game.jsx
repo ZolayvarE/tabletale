@@ -9,17 +9,22 @@ class Game extends React.Component {
   }
 
   componentWillMount () {
-    if (formiliar.get('roomName') === undefined || formiliar.get('roomName') === 'TableTale') {
+    if (!formiliar.get('roomName')) {
       browserHistory.push('/');
     } else {
       formiliar.set('socket', socket);
     }    
   }
 
+  componentWillUnmount () {
+    formiliar.set('roomName', undefined);
+    localStorage.removeItem('roomName');
+  }
+
   render () {
     return (
       <div className="Game">
-        <img src="../assets/paper-background.png" className="Paper"></img>
+        <canvas className="Paper"></canvas>
         <div className="Chat">
           I am the chat!
         </div>

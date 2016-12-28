@@ -6,11 +6,8 @@ var NavBar = (props) => {
   return (
     <div className='NavBar'>
       <h1 className='Logo'>
-        <Link to='/' onClick={() => {
-          formiliar.set('roomName', 'TableTale');
-          localStorage.removeItem('roomName');
-        }}>
-          { formiliar.get('roomName') }
+        <Link to='/'>
+          TableTale
         </Link>
       </h1>
     </div>

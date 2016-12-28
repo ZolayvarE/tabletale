@@ -81,10 +81,13 @@ a {
 }
 
 .Paper {
+  background-image: url('../assets/paper-background.png');
+  background-size: cover;
   position: relative;
   margin-top: 0px;
   margin-bottom: 15px;
   width: 60%;
+  height: 100%;
 }
 
 .Chat {

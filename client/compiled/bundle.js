@@ -26442,9 +26442,9 @@
 
 	var _dice2 = _interopRequireDefault(_dice);
 
-	var _formiliar = __webpack_require__(244);
+	var _mindful = __webpack_require__(297);
 
-	var _formiliar2 = _interopRequireDefault(_formiliar);
+	var _mindful2 = _interopRequireDefault(_mindful);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26466,9 +26466,8 @@
 	  _createClass(App, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      if (localStorage.roomName) {
-	        _formiliar2.default.set('roomName', localStorage.roomName);
-	        _reactRouter.browserHistory.push(localStorage.roomName);
+	      if (_mindful2.default.get('roomName')) {
+	        _reactRouter.browserHistory.push(_mindful2.default.get('roomName'));
 	      }
 	    }
 	  }, {
@@ -26504,9 +26503,9 @@
 
 	var _reactRouter = __webpack_require__(183);
 
-	var _formiliar = __webpack_require__(244);
+	var _mindful = __webpack_require__(297);
 
-	var _formiliar2 = _interopRequireDefault(_formiliar);
+	var _mindful2 = _interopRequireDefault(_mindful);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26520,13 +26519,13 @@
 	      _react2.default.createElement(
 	        _reactRouter.Link,
 	        { to: '/' },
-	        'TableTale'
+	        _mindful2.default.get('roomName') || 'TableTale'
 	      )
 	    )
 	  );
 	};
 
-	exports.default = NavBar;
+	exports.default = (0, _mindful2.default)(NavBar, 'roomName');
 
 /***/ },
 /* 240 */
@@ -26582,9 +26581,9 @@
 
 	var _reactRouter = __webpack_require__(183);
 
-	var _formiliar = __webpack_require__(244);
+	var _mindful = __webpack_require__(297);
 
-	var _formiliar2 = _interopRequireDefault(_formiliar);
+	var _mindful2 = _interopRequireDefault(_mindful);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26608,10 +26607,9 @@
 	    value: function joinRoom(event) {
 	      event.preventDefault();
 	      var roomName = document.getElementById('roomNameField').value;
-	      document.getElementById('roomNameField').value = '';
 	      if (roomName) {
-	        _formiliar2.default.set('roomName', roomName);
-	        localStorage.roomName = roomName;
+	        document.getElementById('roomNameField').value = '';
+	        _mindful2.default.retain('roomName', roomName);
 	        _reactRouter.browserHistory.push(roomName);
 	      }
 	    }
@@ -26747,9 +26745,9 @@
 
 	var _reactRouter = __webpack_require__(183);
 
-	var _formiliar = __webpack_require__(244);
+	var _mindful = __webpack_require__(297);
 
-	var _formiliar2 = _interopRequireDefault(_formiliar);
+	var _mindful2 = _interopRequireDefault(_mindful);
 
 	var _socket = __webpack_require__(247);
 
@@ -26775,17 +26773,16 @@
 	  _createClass(Game, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      if (!_formiliar2.default.get('roomName')) {
+	      if (!_mindful2.default.get('roomName')) {
 	        _reactRouter.browserHistory.push('/');
 	      } else {
-	        _formiliar2.default.set('socket', _socket2.default);
+	        _mindful2.default.set('socket', _socket2.default);
 	      }
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      _formiliar2.default.set('roomName', undefined);
-	      localStorage.removeItem('roomName');
+	      _mindful2.default.forget('roomName');
 	    }
 	  }, {
 	    key: 'render',
@@ -26809,140 +26806,7 @@
 	exports.default = Game;
 
 /***/ },
-/* 244 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	var storage = {};
-
-	var persistentStorage = JSON.parse(localStorage.formiliar || '{}') || {};
-
-	var _updateStorage = function _updateStorage(key, value) {
-	  if (storage[key] === undefined) {
-	    storage[key] = {
-	      value: null,
-	      callbacks: []
-	    };
-	  }
-
-	  storage[key].value = value;
-	  storage[key].callbacks.forEach(function (callback) {
-	    callback();
-	  });
-	};
-
-	for (var key in persistentStorage) {
-	  _updateStorage(key, persistentStorage[key]);
-	}
-
-	var validateInput = function validateInput(input, value) {
-	  if (typeof input === 'function') {
-	    throw new Error('Input cannot be a function!');
-	  } else if (Array.isArray(input)) {
-	    throw new Error('Input cannot be an array!');
-	  } else if ((typeof input === 'undefined' ? 'undefined' : _typeof(input)) !== 'object') {
-	    var validInput = {};
-	    validInput[input] = value;
-	    return validInput;
-	  } else {
-	    return input;
-	  }
-	};
-
-	var subscribeToValue = function subscribeToValue(input, callback) {
-	  if (storage[input] && storage[input].callbacks) {
-	    storage[input].callbacks.push(callback);
-	  } else {
-	    throw new Error('Could not find the item: "' + input + '" in storage');
-	  }
-	};
-
-	var updateStorage = function updateStorage(input, value) {
-	  input = validateInput(input, value);
-	  for (var key in input) {
-	    _updateStorage(key, input[key]);
-	  }
-	};
-
-	var updatePersistentStorage = function updatePersistentStorage(input, value) {
-	  input = validateInput(input, value);
-	  for (var key in input) {
-	    _updateStorage(key, input[key]);
-	    persistentStorage[key] = input[key];
-	  }
-	  localStorage.formiliar = JSON.stringify(persistentStorage);
-	};
-
-	var clearPersistentStorage = function clearPersistentStorage(input) {
-	  if (input === undefined) {
-	    localStorage.removeItem('formiliar');
-	    for (var key in persistentStorage) {
-	      delete persistentStorage[key];
-	    }
-	  } else {
-	    delete persistentStorage[input];
-	    localStorage.formiliar = JSON.stringify(persistentStorage);
-	  }
-	};
-
-	var searchStorage = function searchStorage(input) {
-	  if (storage[input] !== undefined) {
-	    return storage[input].value;
-	  } else {
-	    console.error(new Error('Could not find the item: "' + input + '" in storage'));
-	  }
-	};
-
-	var clearStorage = function clearStorage(input) {
-	  if (storage[input]) {
-	    delete storage[input];
-	  } else if (persistentStorage[input]) {
-	    delete persistentStorage[input];
-	  }
-	};
-
-	var initializeReactComponent = function initializeReactComponent(component, props, context, updater) {
-	  if (!component.__proto__.name) {
-	    return component(props, context, updater);
-	  } else {
-	    return new component(props, context, updater);
-	  }
-	};
-
-	var registerComponent = function registerComponent(component) {
-	  for (var _len = arguments.length, keys = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	    keys[_key - 1] = arguments[_key];
-	  }
-
-	  if (Array.isArray(keys[0])) {
-	    keys = keys[0];
-	  }
-
-	  return function (props, context, updater) {
-	    var saved = initializeReactComponent(component, props, context, updater);
-	    keys.forEach(function (key) {
-	      subscribeToValue(key, function () {
-	        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
-	      });
-	    });
-	    return saved;
-	  };
-	};
-
-	var formiliar = registerComponent;
-	formiliar.set = updateStorage;
-	formiliar.get = searchStorage;
-	formiliar.remove = clearStorage;
-	formiliar.retain = updatePersistentStorage;
-	formiliar.forget = clearPersistentStorage;
-	formiliar.subscribe = registerComponent;
-
-	module.exports = formiliar;
-
-/***/ },
+/* 244 */,
 /* 245 */,
 /* 246 */,
 /* 247 */
@@ -35076,6 +34940,136 @@
 	};
 
 
+
+/***/ },
+/* 297 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var storage = {};
+
+	var persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
+
+	var _updateStorage = function _updateStorage(key, value) {
+	  if (storage[key] === undefined) {
+	    storage[key] = {
+	      value: null,
+	      callbacks: []
+	    };
+	  }
+
+	  storage[key].value = value;
+	  storage[key].callbacks.forEach(function (callback) {
+	    callback();
+	  });
+	};
+
+	for (var key in persistentStorage) {
+	  _updateStorage(key, persistentStorage[key]);
+	}
+
+	var validateInput = function validateInput(input, value) {
+	  if (typeof input === 'function') {
+	    throw new Error('Input cannot be a function!');
+	  } else if (Array.isArray(input)) {
+	    throw new Error('Input cannot be an array!');
+	  } else if ((typeof input === 'undefined' ? 'undefined' : _typeof(input)) !== 'object') {
+	    var validInput = {};
+	    validInput[input] = value;
+	    return validInput;
+	  } else {
+	    return input;
+	  }
+	};
+
+	var subscribeToValue = function subscribeToValue(input, callback) {
+	  if (!storage[input]) {
+	    _updateStorage(input, undefined);
+	  }
+
+	  if (storage[input] && storage[input].callbacks) {
+	    storage[input].callbacks.push(callback);
+	  }
+	};
+
+	var setStorage = function setStorage(input, value) {
+	  input = validateInput(input, value);
+	  for (var key in input) {
+	    _updateStorage(key, input[key]);
+	  }
+	};
+
+	var updateStorage = function updateStorage(input, callback) {
+	  setStorage(input, callback(storage[input].value));
+	};
+
+	var updatePersistentStorage = function updatePersistentStorage(input, value) {
+	  input = validateInput(input, value);
+	  for (var key in input) {
+	    _updateStorage(key, input[key]);
+	    persistentStorage[key] = input[key];
+	  }
+	  localStorage.mindful = JSON.stringify(persistentStorage);
+	};
+
+	var searchStorage = function searchStorage(input) {
+	  if (storage[input] !== undefined) {
+	    return storage[input].value;
+	  }
+	};
+
+	var clearStorage = function clearStorage(input) {
+	  if (storage[input]) {
+	    setStorage(input, undefined);
+	  }
+
+	  if (persistentStorage[input]) {
+	    delete persistentStorage[input];
+	    localStorage.mindful = JSON.stringify(persistentStorage);
+	  }
+	};
+
+	var initializeReactComponent = function initializeReactComponent(component, props, context, updater) {
+	  if (!component.__proto__.name) {
+	    return component(props, context, updater);
+	  } else {
+	    return new component(props, context, updater);
+	  }
+	};
+
+	var registerComponent = function registerComponent(component) {
+	  for (var _len = arguments.length, keys = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    keys[_key - 1] = arguments[_key];
+	  }
+
+	  if (Array.isArray(keys[0])) {
+	    keys = keys[0];
+	  }
+
+	  return function (props, context, updater) {
+	    var saved = initializeReactComponent(component, props, context, updater);
+	    keys.forEach(function (key) {
+	      subscribeToValue(key, function () {
+	        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
+	      });
+	    });
+	    return saved;
+	  };
+	};
+
+	var mindful = registerComponent;
+	mindful.set = setStorage;
+	mindful.get = searchStorage;
+	mindful.update = updateStorage;
+	mindful.remove = clearStorage;
+	mindful.retain = updatePersistentStorage;
+	mindful.forget = clearStorage;
+	mindful.subscribe = registerComponent;
+
+	module.exports = mindful;
 
 /***/ }
 /******/ ]);

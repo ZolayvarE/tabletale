@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import formiliar from '../scripts/formiliar';
+import mindful from '../scripts/mindful';
 import socket from 'socket.io-client';
 
 class Game extends React.Component {
@@ -9,16 +9,15 @@ class Game extends React.Component {
   }
 
   componentWillMount () {
-    if (!formiliar.get('roomName')) {
+    if (!mindful.get('roomName')) {
       browserHistory.push('/');
     } else {
-      formiliar.set('socket', socket);
+      mindful.set('socket', socket);
     }    
   }
 
   componentWillUnmount () {
-    formiliar.set('roomName', undefined);
-    localStorage.removeItem('roomName');
+    mindful.forget('roomName');
   }
 
   render () {

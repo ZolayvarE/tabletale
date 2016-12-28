@@ -1,20 +1,18 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import formiliar from '../scripts/formiliar';
+import mindful from '../scripts/mindful';
 
 class Home extends React.Component {
   constructor (props) {
     super(props);
   }
 
-
   joinRoom (event) {
     event.preventDefault();
     var roomName = document.getElementById('roomNameField').value;
-    document.getElementById('roomNameField').value = '';
     if (roomName) {
-      formiliar.set('roomName', roomName);
-      localStorage.roomName = roomName;
+      document.getElementById('roomNameField').value = '';
+      mindful.retain('roomName', roomName);
       browserHistory.push(roomName);
     }
   }

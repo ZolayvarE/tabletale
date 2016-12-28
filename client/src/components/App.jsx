@@ -4,7 +4,7 @@ import NavBar from './Navbar.jsx';
 import About from './About.jsx';
 import Home from './Home.jsx';
 import d from '../scripts/dice.js';
-import formiliar from '../scripts/formiliar';
+import mindful from '../scripts/mindful';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,9 +12,8 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    if (localStorage.roomName) {
-      formiliar.set('roomName', localStorage.roomName);
-      browserHistory.push(localStorage.roomName);
+    if (mindful.get('roomName')) {
+      browserHistory.push(mindful.get('roomName'));
     }
   }
 

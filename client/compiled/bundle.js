@@ -34956,24 +34956,6 @@
 
 	var persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
 
-	var _updateStorage = function _updateStorage(key, value) {
-	  if (storage[key] === undefined) {
-	    storage[key] = {
-	      value: null,
-	      callbacks: []
-	    };
-	  }
-
-	  storage[key].value = value;
-	  storage[key].callbacks.forEach(function (callback) {
-	    callback();
-	  });
-	};
-
-	for (var key in persistentStorage) {
-	  _updateStorage(key, persistentStorage[key]);
-	}
-
 	var validateInput = function validateInput(input, value) {
 	  if (typeof input === 'function') {
 	    throw new Error('Input cannot be a function!');
@@ -34985,6 +34967,20 @@
 	    return validInput;
 	  } else {
 	    return input;
+	  }
+	};
+
+	var _updateStorage = function _updateStorage(key, value) {
+	  if (storage[key] === undefined) {
+	    storage[key] = {
+	      value: value,
+	      callbacks: []
+	    };
+	  } else {
+	    storage[key].value = value;
+	    storage[key].callbacks.forEach(function (callback) {
+	      callback();
+	    });
 	  }
 	};
 
@@ -35068,6 +35064,8 @@
 	    return saved;
 	  };
 	};
+
+	setStorage(persistentStorage);
 
 	var mindful = registerComponent;
 	mindful.set = setStorage;

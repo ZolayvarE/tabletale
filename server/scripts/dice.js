@@ -54,7 +54,9 @@ const roll = function (number) {
 };
 
 const d = function (type, quantity, operator) {
-  quantity = quantity || 1;
+  if (quantity === undefined) {
+    quantity = 1;
+  }
 
   var results = [];
   for (var i = 0; i < quantity; i++) {

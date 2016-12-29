@@ -9,11 +9,9 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 app.get('/d/*', (req, res) => {
   var diceArguments = req.url.split('/');
-  while (!Number(diceArguments)) {
+  while (!Number(diceArguments[0])) {
     diceArguments.shift();
   }
-  console.log(diceArguments);
-  // console.log(diceArguments);
   res.send(dice.apply(null, diceArguments));
 });
 

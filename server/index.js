@@ -2,9 +2,16 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
+const dice = require('../client/src/scripts/dice.js');
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client')));
+
+app.get('/d/*', (req, res) => {
+  var diceArguments = req.url.split('/').slice(2);
+  // console.log(diceArguments);
+  res.send(dice.apply(null, diceArguments));
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));

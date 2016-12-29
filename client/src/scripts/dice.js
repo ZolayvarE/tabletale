@@ -70,6 +70,4 @@ const d = function (type, quantity, operator) {
   return results;
 };
 
-window.d = d;
-
-export default d;
+module.exports = d;

@@ -47,7 +47,7 @@ const operators = {
 
     return max;
   }
-};
+}; 
 
 const roll = function (number) {
   return Math.ceil(Math.random() * number);

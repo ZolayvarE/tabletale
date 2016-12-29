@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-const dice = require(path.join(__dirname, '../client/src/scripts/dice.js'));
+const dice = require(path.join(__dirname, 'scripts/dice.js'));
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client')));
@@ -21,3 +21,9 @@ const port = process.env.PORT || 8080;
 app.listen(port, function () {
   console.log('Now listening on port:', port);
 });
+
+
+
+
+
+

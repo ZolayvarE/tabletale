@@ -26782,6 +26782,9 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	var operators = {
 	  ascending: function ascending(input) {
 	    return input.sort(function (a, b) {
@@ -26838,9 +26841,7 @@
 	};
 
 	var d = function d(type, quantity, operator) {
-	  if (!quantity || quantity === 1) {
-	    return roll(type);
-	  }
+	  quantity = quantity || 1;
 
 	  var results = [];
 	  for (var i = 0; i < quantity; i++) {
@@ -26854,7 +26855,9 @@
 	  return results;
 	};
 
-	module.exports = d;
+	window.d = d;
+
+	exports.default = d;
 
 /***/ },
 /* 239 */

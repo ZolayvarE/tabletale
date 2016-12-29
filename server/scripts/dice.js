@@ -54,10 +54,9 @@ const roll = function (number) {
 };
 
 const d = function (type, quantity, operator) {
-  if (quantity === undefined) {
+  if (!Number(quantity)) {
     quantity = 1;
   }
-
   var results = [];
   for (var i = 0; i < quantity; i++) {
     results.push(roll(type));

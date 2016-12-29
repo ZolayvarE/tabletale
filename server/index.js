@@ -12,7 +12,7 @@ app.get('/d/*', (req, res) => {
   while (!Number(diceArguments[0])) {
     diceArguments.shift();
   }
-  res.send(dice.apply(null, diceArguments));
+  res.status(200).send(dice.apply(null, diceArguments));
 });
 
 app.get('*', (req, res) => {

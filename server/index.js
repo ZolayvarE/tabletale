@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-const dice = require('../client/src/scripts/dice.js');
+const dice = require(path.join(__dirname, '../client/src/scripts/dice.js'));
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client')));

@@ -17,17 +17,23 @@ const validateInput = (input, value) => {
   }
 };
 
+const _render = (subscription) => {
+  let updater = subscription.updater;
+  let component = subscription.component;
+  console.log(component);
+  updater.enqueueForceUpdate(component._owner ? component._owner._instance : component);
+};
 
 const _upsert = (key, value) => {
   if (storage[key] === undefined) {
     storage[key] = {
       value: value,
-      callbacks: [],
+      subscriptions: [],
     };
   } else {
     storage[key].value = value;
-    storage[key].callbacks.forEach((callback) => {
-      callback();
+    storage[key].subscriptions.forEach((subscription) => {
+      _render(subscription);
     });
   }
 };
@@ -47,13 +53,28 @@ const searchForValueInStorage = (input) => {
 };
 
 
-const subscribeToValue = (input, callback) => {
-  if (!storage[input]) {
-    setValueInStorage(input, undefined);
+const subscribeToValue = (key, component, updater) => {
+  if (!storage[key]) {
+    setValueInStorage(key, undefined);
   }
 
-  if (storage[input] && storage[input].callbacks) {
-    storage[input].callbacks.push(callback);
+  let value = storage[key]; 
+  let subscriptions = [];
+  if (value) {
+    subscriptions = value.subscriptions;
+  }
+
+  if (subscriptions) {
+    for (var i = 0; i < subscriptions.length; i++) {
+      if (subscriptions[i].component === component) {
+        return;
+      }
+    }
+
+    subscriptions.push({
+      component: component,
+      updater: updater
+    });
   }
 };
 
@@ -94,12 +115,28 @@ const clearValueFromStorage = (input) => {
 };
 
 
-const initializeReactComponent = (component, props, context, updater) => {
-  if (!component.__proto__.name) {
-    return component(props, context, updater);
-  } else {
-    return new component(props, context, updater);
+const mapGlobalStateToProps = (props, values) => {
+  var newProps = {};
+  for (var key in props) {
+    newProps[key] = props[key];
   }
+
+  values.forEach(function (value) {
+    newProps[value] = searchForValueInStorage(value);
+  });
+
+  return newProps;
+};
+
+
+const initializeReactComponent = (component, props, context, updater) => {
+  let initialized;
+  if (!component.__proto__.name) {
+    initialized = component(props, context, updater);
+  } else {
+    initialized = new component(props, context, updater);
+  }
+  return initialized;
 };
 
 
@@ -109,13 +146,11 @@ const registerComponent = (component, ...keys) => {
   }
 
   return (props, context, updater) => {
-    var saved = initializeReactComponent(component, props, context, updater);
+    var initializedComponent = initializeReactComponent(component, props, context, updater);
     keys.forEach((key) => {
-      subscribeToValue(key, () => {
-        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
-      });
+      subscribeToValue(key, initializedComponent, updater);
     });
-    return saved;
+    return initializedComponent;
   };
 };
 

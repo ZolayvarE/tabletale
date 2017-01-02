@@ -26548,16 +26548,23 @@
 	  }
 	};
 
+	var _render = function _render(subscription) {
+	  var updater = subscription.updater;
+	  var component = subscription.component;
+	  console.log(component);
+	  updater.enqueueForceUpdate(component._owner ? component._owner._instance : component);
+	};
+
 	var _upsert = function _upsert(key, value) {
 	  if (storage[key] === undefined) {
 	    storage[key] = {
 	      value: value,
-	      callbacks: []
+	      subscriptions: []
 	    };
 	  } else {
 	    storage[key].value = value;
-	    storage[key].callbacks.forEach(function (callback) {
-	      callback();
+	    storage[key].subscriptions.forEach(function (subscription) {
+	      _render(subscription);
 	    });
 	  }
 	};
@@ -26575,13 +26582,28 @@
 	  }
 	};
 
-	var subscribeToValue = function subscribeToValue(input, callback) {
-	  if (!storage[input]) {
-	    setValueInStorage(input, undefined);
+	var subscribeToValue = function subscribeToValue(key, component, updater) {
+	  if (!storage[key]) {
+	    setValueInStorage(key, undefined);
 	  }
 
-	  if (storage[input] && storage[input].callbacks) {
-	    storage[input].callbacks.push(callback);
+	  var value = storage[key];
+	  var subscriptions = [];
+	  if (value) {
+	    subscriptions = value.subscriptions;
+	  }
+
+	  if (subscriptions) {
+	    for (var i = 0; i < subscriptions.length; i++) {
+	      if (subscriptions[i].component === component) {
+	        return;
+	      }
+	    }
+
+	    subscriptions.push({
+	      component: component,
+	      updater: updater
+	    });
 	  }
 	};
 
@@ -26617,12 +26639,27 @@
 	  }
 	};
 
-	var initializeReactComponent = function initializeReactComponent(component, props, context, updater) {
-	  if (!component.__proto__.name) {
-	    return component(props, context, updater);
-	  } else {
-	    return new component(props, context, updater);
+	var mapGlobalStateToProps = function mapGlobalStateToProps(props, values) {
+	  var newProps = {};
+	  for (var key in props) {
+	    newProps[key] = props[key];
 	  }
+
+	  values.forEach(function (value) {
+	    newProps[value] = searchForValueInStorage(value);
+	  });
+
+	  return newProps;
+	};
+
+	var initializeReactComponent = function initializeReactComponent(component, props, context, updater) {
+	  var initialized = void 0;
+	  if (!component.__proto__.name) {
+	    initialized = component(props, context, updater);
+	  } else {
+	    initialized = new component(props, context, updater);
+	  }
+	  return initialized;
 	};
 
 	var registerComponent = function registerComponent(component) {
@@ -26635,13 +26672,11 @@
 	  }
 
 	  return function (props, context, updater) {
-	    var saved = initializeReactComponent(component, props, context, updater);
+	    var initializedComponent = initializeReactComponent(component, props, context, updater);
 	    keys.forEach(function (key) {
-	      subscribeToValue(key, function () {
-	        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
-	      });
+	      subscribeToValue(key, initializedComponent, updater);
 	    });
-	    return saved;
+	    return initializedComponent;
 	  };
 	};
 
@@ -26935,7 +26970,7 @@
 	  return Game;
 	}(_react2.default.Component);
 
-	exports.default = Game;
+	exports.default = (0, _mindful2.default)(Game, 'roomName');
 
 /***/ },
 /* 240 */

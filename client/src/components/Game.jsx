@@ -33,5 +33,5 @@ class Game extends React.Component {
 
 }
 
-export default Game;
+export default mindful(Game, 'roomName');
 

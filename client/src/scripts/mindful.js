@@ -1,4 +1,5 @@
 const storage = {};
+window._s = storage;
 
 const persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
 
@@ -17,24 +18,18 @@ const validateInput = (input, value) => {
   }
 };
 
-const _render = (subscription) => {
-  let updater = subscription.updater;
-  let component = subscription.component;
-  console.log(component);
-  updater.enqueueForceUpdate(component._owner ? component._owner._instance : component);
-};
 
 const _upsert = (key, value) => {
   if (storage[key] === undefined) {
     storage[key] = {
       value: value,
-      subscriptions: [],
+      callbacks: [],
     };
   } else {
     storage[key].value = value;
-    storage[key].subscriptions.forEach((subscription) => {
-      _render(subscription);
-    });
+    while (storage[key].callbacks.length) {
+      storage[key].callbacks.pop()();
+    }
   }
 };
 
@@ -53,28 +48,13 @@ const searchForValueInStorage = (input) => {
 };
 
 
-const subscribeToValue = (key, component, updater) => {
-  if (!storage[key]) {
-    setValueInStorage(key, undefined);
+const subscribeToValue = (input, callback) => {
+  if (!storage[input]) {
+    setValueInStorage(input, undefined);
   }
 
-  let value = storage[key]; 
-  let subscriptions = [];
-  if (value) {
-    subscriptions = value.subscriptions;
-  }
-
-  if (subscriptions) {
-    for (var i = 0; i < subscriptions.length; i++) {
-      if (subscriptions[i].component === component) {
-        return;
-      }
-    }
-
-    subscriptions.push({
-      component: component,
-      updater: updater
-    });
+  if (storage[input] && storage[input].callbacks) {
+    storage[input].callbacks.push(callback);
   }
 };
 
@@ -146,11 +126,13 @@ const registerComponent = (component, ...keys) => {
   }
 
   return (props, context, updater) => {
-    var initializedComponent = initializeReactComponent(component, props, context, updater);
+    var saved = initializeReactComponent(component, props, context, updater);
     keys.forEach((key) => {
-      subscribeToValue(key, initializedComponent, updater);
+      subscribeToValue(key, () => {
+        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
+      });
     });
-    return initializedComponent;
+    return saved;
   };
 };
 

@@ -26531,6 +26531,7 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var storage = {};
+	window._s = storage;
 
 	var persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
 
@@ -26548,24 +26549,17 @@
 	  }
 	};
 
-	var _render = function _render(subscription) {
-	  var updater = subscription.updater;
-	  var component = subscription.component;
-	  console.log(component);
-	  updater.enqueueForceUpdate(component._owner ? component._owner._instance : component);
-	};
-
 	var _upsert = function _upsert(key, value) {
 	  if (storage[key] === undefined) {
 	    storage[key] = {
 	      value: value,
-	      subscriptions: []
+	      callbacks: []
 	    };
 	  } else {
 	    storage[key].value = value;
-	    storage[key].subscriptions.forEach(function (subscription) {
-	      _render(subscription);
-	    });
+	    while (storage[key].callbacks.length) {
+	      storage[key].callbacks.pop()();
+	    }
 	  }
 	};
 
@@ -26582,28 +26576,13 @@
 	  }
 	};
 
-	var subscribeToValue = function subscribeToValue(key, component, updater) {
-	  if (!storage[key]) {
-	    setValueInStorage(key, undefined);
+	var subscribeToValue = function subscribeToValue(input, callback) {
+	  if (!storage[input]) {
+	    setValueInStorage(input, undefined);
 	  }
 
-	  var value = storage[key];
-	  var subscriptions = [];
-	  if (value) {
-	    subscriptions = value.subscriptions;
-	  }
-
-	  if (subscriptions) {
-	    for (var i = 0; i < subscriptions.length; i++) {
-	      if (subscriptions[i].component === component) {
-	        return;
-	      }
-	    }
-
-	    subscriptions.push({
-	      component: component,
-	      updater: updater
-	    });
+	  if (storage[input] && storage[input].callbacks) {
+	    storage[input].callbacks.push(callback);
 	  }
 	};
 
@@ -26672,11 +26651,13 @@
 	  }
 
 	  return function (props, context, updater) {
-	    var initializedComponent = initializeReactComponent(component, props, context, updater);
+	    var saved = initializeReactComponent(component, props, context, updater);
 	    keys.forEach(function (key) {
-	      subscribeToValue(key, initializedComponent, updater);
+	      subscribeToValue(key, function () {
+	        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
+	      });
 	    });
-	    return initializedComponent;
+	    return saved;
 	  };
 	};
 

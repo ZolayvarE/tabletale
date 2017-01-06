@@ -8,14 +8,10 @@ io.on('connect', function (socket) {
     console.log(data);
   });
 
-  socket.on('snoof', function () {
+  socket.on('snoof', function (data) {
     data.console.log(data);
-  })
+  });
 });
-
-
-
-
 
 
 module.exports = app;

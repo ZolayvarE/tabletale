@@ -26923,13 +26923,14 @@
 	      if (!_mindful2.default.get('roomName')) {
 	        _reactRouter.browserHistory.push('/');
 	      } else {
-	        _mindful2.default.set('socket', _socket2.default);
+	        _mindful2.default.set('socket', _socket2.default.connect());
 	      }
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _mindful2.default.forget('roomName');
+	      _mindful2.default.get('socket').disconnect();
 	    }
 	  }, {
 	    key: 'render',

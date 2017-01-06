@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import mindful from '../scripts/mindful';
-import socket from 'socket.io-client';
+import io from 'socket.io-client';
 
 class Game extends React.Component {
   constructor (props) {
@@ -12,12 +12,13 @@ class Game extends React.Component {
     if (!mindful.get('roomName')) {
       browserHistory.push('/');
     } else {
-      mindful.set('socket', socket);
+      mindful.set('socket', io.connect());
     }    
   }
 
   componentWillUnmount () {
     mindful.forget('roomName');
+    mindful.get('socket').disconnect();
   }
 
   render () {

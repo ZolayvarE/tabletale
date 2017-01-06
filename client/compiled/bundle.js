@@ -26531,9 +26531,8 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var storage = {};
-	window._s = storage;
 
-	var persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
+	var persistentStorage = JSON.parse(localStorage._mindful || '{}') || {};
 
 	var validateInput = function validateInput(input, value) {
 	  if (typeof input === 'function') {
@@ -26604,7 +26603,7 @@
 	    _upsert(key, input[key]);
 	    persistentStorage[key] = input[key];
 	  }
-	  localStorage.mindful = JSON.stringify(persistentStorage);
+	  localStorage._mindful = JSON.stringify(persistentStorage);
 	};
 
 	var clearValueFromStorage = function clearValueFromStorage(input) {
@@ -26614,7 +26613,7 @@
 
 	  if (persistentStorage[input]) {
 	    delete persistentStorage[input];
-	    localStorage.mindful = JSON.stringify(persistentStorage);
+	    localStorage._mindful = JSON.stringify(persistentStorage);
 	  }
 	};
 

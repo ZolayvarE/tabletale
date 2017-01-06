@@ -13,7 +13,9 @@ class Game extends React.Component {
       browserHistory.push('/');
     } else {
       mindful.set('socket', io.connect());
-    }    
+    }
+
+    mindful.get('socket').emit('join', mindful.get('roomName'));
   }
 
   componentWillUnmount () {

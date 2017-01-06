@@ -26925,6 +26925,8 @@
 	      } else {
 	        _mindful2.default.set('socket', _socket2.default.connect());
 	      }
+
+	      _mindful2.default.get('socket').emit('join', _mindful2.default.get('roomName'));
 	    }
 	  }, {
 	    key: 'componentWillUnmount',

@@ -26922,9 +26922,10 @@
 	    value: function componentWillMount() {
 	      if (!_mindful2.default.get('roomName')) {
 	        _reactRouter.browserHistory.push('/');
-	      } else {
-	        _mindful2.default.set('socket', _socket2.default.connect());
+	        return;
 	      }
+
+	      _mindful2.default.set('socket', _socket2.default.connect());
 
 	      _mindful2.default.get('socket').emit('join', _mindful2.default.get('roomName'));
 	    }
@@ -26933,6 +26934,7 @@
 	    value: function componentWillUnmount() {
 	      _mindful2.default.forget('roomName');
 	      _mindful2.default.get('socket').disconnect();
+	      _mindful2.default.forget('socket');
 	    }
 	  }, {
 	    key: 'render',

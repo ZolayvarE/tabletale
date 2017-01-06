@@ -11,9 +11,10 @@ class Game extends React.Component {
   componentWillMount () {
     if (!mindful.get('roomName')) {
       browserHistory.push('/');
-    } else {
-      mindful.set('socket', io.connect());
+      return;
     }
+    
+    mindful.set('socket', io.connect());
 
     mindful.get('socket').emit('join', mindful.get('roomName'));
   }
@@ -21,6 +22,7 @@ class Game extends React.Component {
   componentWillUnmount () {
     mindful.forget('roomName');
     mindful.get('socket').disconnect();
+    mindful.forget('socket');
   }
 
   render () {

@@ -35134,14 +35134,16 @@
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      _mindful2.default.set('messages', [{
-	        author: 'Eric',
-	        text: 'whaddup?'
+	        author: 'You have joined the room:"' + _mindful2.default.get('roomName') + '"',
+	        text: ''
 	      }]);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      _mindful2.default.forget('messages');
+
+	      _mindful2.default.get('socket').on('message', function (data) {
+	        _mindful2.default.update('messages', function (allMessages) {
+	          allMessages.push(data.message);
+	          return allMessages;
+	        });
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -35159,7 +35161,7 @@
 	  return ChatLog;
 	}(_react2.default.Component);
 
-	exports.default = ChatLog;
+	exports.default = (0, _mindful2.default)(ChatLog, 'messages');
 
 /***/ },
 /* 291 */

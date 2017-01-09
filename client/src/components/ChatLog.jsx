@@ -7,13 +7,17 @@ import ChatEntry from './ChatEntry.jsx';
 class ChatLog extends React.Component {
   componentWillMount() {
     mindful.set('messages', [{
-      author: 'Eric',
-      text: 'whaddup?',
+      author: 'You have joined the room:"' + mindful.get('roomName') + '"',
+      text: '',
     }]);
-  }
 
-  componentWillUnmount() {
-    mindful.forget('messages');
+    mindful.get('socket').on('message', (data) => {
+      mindful.update('messages', (allMessages) => {
+        allMessages.push(data.message);
+        return allMessages;
+      });
+    });
+
   }
 
   render () {
@@ -28,5 +32,5 @@ class ChatLog extends React.Component {
 }
 
 
-export default ChatLog;
+export default mindful(ChatLog, 'messages');
 

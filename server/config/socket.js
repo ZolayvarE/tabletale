@@ -8,6 +8,10 @@ io.on('connect', function (socket) {
     socket.join(roomName);
   });
 
+  socket.on('message', function (message) {
+
+  });
+
 });
 
 

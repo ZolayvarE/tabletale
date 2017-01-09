@@ -26552,13 +26552,15 @@
 	  if (storage[key] === undefined) {
 	    storage[key] = {
 	      value: value,
-	      callbacks: []
+	      subscribers: new Map()
 	    };
 	  } else {
 	    storage[key].value = value;
-	    while (storage[key].callbacks.length) {
-	      storage[key].callbacks.pop()();
-	    }
+	    storage[key].subscribers.forEach(function (subscriber) {
+	      if (subscriber.isStateless() || subscriber.isMounted()) {
+	        subscriber.render();
+	      }
+	    });
 	  }
 	};
 
@@ -26575,13 +26577,21 @@
 	  }
 	};
 
-	var subscribeToValue = function subscribeToValue(input, callback) {
-	  if (!storage[input]) {
-	    setValueInStorage(input, undefined);
+	var subscribeToValue = function subscribeToValue(component, key, updater, instance, callback) {
+	  if (!storage[key]) {
+	    setValueInStorage(key, undefined);
 	  }
 
-	  if (storage[input] && storage[input].callbacks) {
-	    storage[input].callbacks.unshift(callback);
+	  if (storage[key] && storage[key].subscribers) {
+	    storage[key].subscribers.set(component, {
+	      render: callback,
+	      isMounted: function isMounted() {
+	        return updater.isMounted(instance);
+	      },
+	      isStateless: function isStateless() {
+	        return !component.__proto__.name;
+	      }
+	    });
 	  }
 	};
 
@@ -26648,11 +26658,10 @@
 	  if (Array.isArray(keys[0])) {
 	    keys = keys[0];
 	  }
-
 	  return function (props, context, updater) {
 	    var saved = initializeReactComponent(component, props, context, updater);
 	    keys.forEach(function (key) {
-	      subscribeToValue(key, function () {
+	      subscribeToValue(component, key, updater, saved, function () {
 	        updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
 	      });
 	    });
@@ -26670,7 +26679,9 @@
 	mindful.forget = clearValueFromStorage;
 	mindful.toggle = toggleValueInStorage;
 	mindful.subscribe = registerComponent;
+	mindful._storage = storage;
 
+	window.mindful = mindful;
 	module.exports = mindful;
 
 /***/ },
@@ -35124,10 +35135,10 @@
 	var ChatLog = function (_React$Component) {
 	  _inherits(ChatLog, _React$Component);
 
-	  function ChatLog() {
+	  function ChatLog(props) {
 	    _classCallCheck(this, ChatLog);
 
-	    return _possibleConstructorReturn(this, (ChatLog.__proto__ || Object.getPrototypeOf(ChatLog)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (ChatLog.__proto__ || Object.getPrototypeOf(ChatLog)).call(this, props));
 	  }
 
 	  _createClass(ChatLog, [{
@@ -35138,12 +35149,21 @@
 	        text: ''
 	      }]);
 
-	      _mindful2.default.get('socket').on('message', function (data) {
+	      _mindful2.default.get('socket').on('message', function (newMessage) {
 	        _mindful2.default.update('messages', function (allMessages) {
-	          allMessages.push(data.message);
+	          allMessages.push(newMessage);
 	          return allMessages;
 	        });
+
+	        console.log(_mindful2.default.get('messages'));
 	      });
+
+	      _mindful2.default.get('socket').emit('message', { author: 'dad', text: 'mom' });
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _mindful2.default.forget('messages');
 	    }
 	  }, {
 	    key: 'render',

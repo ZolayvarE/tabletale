@@ -155,9 +155,7 @@ mindful.update = updateValueInStorage;
 mindful.forget = clearValueFromStorage;
 mindful.toggle = toggleValueInStorage;
 mindful.subscribe = registerComponent;
-mindful._storage = storage;
 
-window.mindful = mindful;
 module.exports = mindful;
 
 

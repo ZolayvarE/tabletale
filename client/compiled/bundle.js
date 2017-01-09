@@ -26900,6 +26900,10 @@
 
 	var _socket2 = _interopRequireDefault(_socket);
 
+	var _ChatLog = __webpack_require__(290);
+
+	var _ChatLog2 = _interopRequireDefault(_ChatLog);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26926,7 +26930,6 @@
 	      }
 
 	      _mindful2.default.set('socket', _socket2.default.connect());
-
 	      _mindful2.default.get('socket').emit('join', _mindful2.default.get('roomName'));
 	    }
 	  }, {
@@ -26943,11 +26946,7 @@
 	        'div',
 	        { className: 'Game' },
 	        _react2.default.createElement('canvas', { className: 'Paper' }),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'Chat' },
-	          'I am the chat!'
-	        )
+	        _react2.default.createElement(_ChatLog2.default, null)
 	      );
 	    }
 	  }]);
@@ -35089,6 +35088,118 @@
 	};
 
 
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _mindful = __webpack_require__(235);
+
+	var _mindful2 = _interopRequireDefault(_mindful);
+
+	var _ChatEntry = __webpack_require__(291);
+
+	var _ChatEntry2 = _interopRequireDefault(_ChatEntry);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ChatLog = function (_React$Component) {
+	  _inherits(ChatLog, _React$Component);
+
+	  function ChatLog() {
+	    _classCallCheck(this, ChatLog);
+
+	    return _possibleConstructorReturn(this, (ChatLog.__proto__ || Object.getPrototypeOf(ChatLog)).apply(this, arguments));
+	  }
+
+	  _createClass(ChatLog, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      _mindful2.default.set('messages', [{
+	        author: 'Eric',
+	        text: 'whaddup?'
+	      }]);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _mindful2.default.forget('messages');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _mindful2.default.get('messages').map(function (message, index) {
+	          return _react2.default.createElement(_ChatEntry2.default, { message: message, key: index });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return ChatLog;
+	}(_react2.default.Component);
+
+	exports.default = ChatLog;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _mindful = __webpack_require__(235);
+
+	var _mindful2 = _interopRequireDefault(_mindful);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ChatEntry = function ChatEntry(props) {
+	  var message = props.message;
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'h5',
+	      null,
+	      message.author
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      message.text
+	    )
+	  );
+	};
+
+	exports.default = ChatEntry;
 
 /***/ }
 /******/ ]);

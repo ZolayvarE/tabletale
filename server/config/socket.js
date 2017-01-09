@@ -11,7 +11,7 @@ io.on('connect', function (socket) {
   });
 
   socket.on('message', function (message) {
-    socket.broadcast.emit('message', message);
+    socket.to(room).emit('message', message);
   });
 
 });

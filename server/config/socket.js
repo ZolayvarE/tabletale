@@ -11,6 +11,7 @@ io.on('connect', function (socket) {
   });
 
   socket.on('message', function (message) {
+    console.log(message);
     socket.to(room).emit('message', message);
   });
 

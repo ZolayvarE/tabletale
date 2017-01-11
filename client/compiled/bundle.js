@@ -35152,8 +35152,6 @@
 	          allMessages.push(newMessage);
 	          return allMessages;
 	        });
-
-	        console.log(_mindful2.default.get('messages'));
 	      });
 
 	      _mindful2.default.get('socket').emit('message', { author: 'dad', text: 'mom' });
@@ -35169,9 +35167,23 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _mindful2.default.get('messages').map(function (message, index) {
-	          return _react2.default.createElement(_ChatEntry2.default, { message: message, key: index });
-	        })
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _mindful2.default.get('messages').map(function (message, index) {
+	            return _react2.default.createElement(_ChatEntry2.default, { message: message, key: index });
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'form',
+	            null,
+	            _react2.default.createElement('input', { type: 'text' }),
+	            _react2.default.createElement('input', { type: 'submit' })
+	          )
+	        )
 	      );
 	    }
 	  }]);

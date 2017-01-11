@@ -20,12 +20,9 @@ class ChatLog extends React.Component {
         allMessages.push(newMessage);
         return allMessages;
       });
-
-      console.log(mindful.get('messages'));
     });
 
     mindful.get('socket').emit('message', {author: 'dad', text: 'mom'});
-
   }
 
   componentWillUnmount() {
@@ -35,9 +32,19 @@ class ChatLog extends React.Component {
   render () {
     return (
       <div>
-        { mindful.get('messages').map((message, index) => {
-          return (<ChatEntry message={message} key={index} />);
-        }) }
+        <div>
+          { mindful.get('messages').map((message, index) => {
+            return (<ChatEntry message={message} key={index} />);
+          }) }
+        </div>
+        <div>
+          <form>
+            <input type='text'>
+            </input>
+            <input type='submit'>
+            </input>
+          </form>
+        </div>
       </div>
     );
   }

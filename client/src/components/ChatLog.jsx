@@ -14,13 +14,6 @@ class ChatLog extends React.Component {
       author: 'You have joined the room:"' + mindful.get('roomName') + '"',
       text: '',
     }]);
-
-    mindful.get('socket').on('message', (newMessage) => {
-      mindful.update('messages', (allMessages) => {
-        allMessages.push(newMessage);
-        return allMessages;
-      });
-    });
   }
 
   sendMessage(e) {
@@ -28,10 +21,10 @@ class ChatLog extends React.Component {
     let messageText = document.getElementById('messageText').value;
     if (messageText) {
       let message = {};
-      message.author = 'Me';
+      message.author = mindful.get('username');
       message.text = messageText;
       mindful.get('socket').emit('message', message);
-      // mindful.get('addNewMessage')(message);
+      mindful.get('addNewMessage')(message);
     }
     document.getElementById('messageText').value = '';
   }

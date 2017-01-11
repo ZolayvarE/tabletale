@@ -26940,6 +26940,10 @@
 	        return;
 	      }
 
+	      while (!_mindful2.default.get('username')) {
+	        _mindful2.default.retain('username', prompt('What should we call you?'));
+	      }
+
 	      _mindful2.default.set('addNewMessage', function (message) {
 	        _mindful2.default.update('messages', function (allMessages) {
 	          allMessages.push(message);
@@ -26973,7 +26977,7 @@
 	  return Game;
 	}(_react2.default.Component);
 
-	exports.default = (0, _mindful2.default)(Game, 'roomName');
+	exports.default = Game;
 
 /***/ },
 /* 240 */
@@ -35156,13 +35160,6 @@
 	        author: 'You have joined the room:"' + _mindful2.default.get('roomName') + '"',
 	        text: ''
 	      }]);
-
-	      _mindful2.default.get('socket').on('message', function (newMessage) {
-	        _mindful2.default.update('messages', function (allMessages) {
-	          allMessages.push(newMessage);
-	          return allMessages;
-	        });
-	      });
 	    }
 	  }, {
 	    key: 'sendMessage',
@@ -35171,10 +35168,10 @@
 	      var messageText = document.getElementById('messageText').value;
 	      if (messageText) {
 	        var message = {};
-	        message.author = 'Me';
+	        message.author = _mindful2.default.get('username');
 	        message.text = messageText;
 	        _mindful2.default.get('socket').emit('message', message);
-	        // mindful.get('addNewMessage')(message);
+	        _mindful2.default.get('addNewMessage')(message);
 	      }
 	      document.getElementById('messageText').value = '';
 	    }

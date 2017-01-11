@@ -14,6 +14,10 @@ class Game extends React.Component {
       browserHistory.push('/');
       return;
     }
+
+    while (!mindful.get('username')) {
+      mindful.retain('username', prompt('What should we call you?'));
+    }
     
     mindful.set('addNewMessage', (message) => {
       mindful.update('messages', (allMessages) => {
@@ -44,5 +48,5 @@ class Game extends React.Component {
 
 }
 
-export default mindful(Game, 'roomName');
+export default Game;
 

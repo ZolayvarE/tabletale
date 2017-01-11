@@ -21,8 +21,19 @@ class ChatLog extends React.Component {
         return allMessages;
       });
     });
+  }
 
-    mindful.get('socket').emit('message', {author: 'dad', text: 'mom'});
+  sendMessage(e) {
+    e.preventDefault();
+    let messageText = document.getElementById('messageText').value;
+    if (messageText) {
+      let message = {};
+      message.author = 'Me';
+      message.text = messageText;
+      mindful.get('socket').emit('message', message);
+      // mindful.get('addNewMessage')(message);
+    }
+    document.getElementById('messageText').value = '';
   }
 
   componentWillUnmount() {
@@ -38,8 +49,8 @@ class ChatLog extends React.Component {
           }) }
         </div>
         <div className="SubmitMessage">
-          <form>
-            <input type='text'>
+          <form onSubmit={this.sendMessage}>
+            <input type='text' id="messageText">
             </input>
             <input type='submit'>
             </input>

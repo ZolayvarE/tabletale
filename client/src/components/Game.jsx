@@ -15,8 +15,16 @@ class Game extends React.Component {
       return;
     }
     
+    mindful.set('addNewMessage', (message) => {
+      mindful.update('messages', (allMessages) => {
+        allMessages.push(message);
+        return allMessages;
+      });
+    });
+    
     mindful.set('socket', io.connect());
     mindful.get('socket').emit('join', mindful.get('roomName'));
+    mindful.get('socket').on('message', mindful.get('addNewMessage'));
   }
 
   componentWillUnmount () {

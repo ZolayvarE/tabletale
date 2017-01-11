@@ -26938,8 +26938,16 @@
 	        return;
 	      }
 
+	      _mindful2.default.set('addNewMessage', function (message) {
+	        _mindful2.default.update('messages', function (allMessages) {
+	          allMessages.push(message);
+	          return allMessages;
+	        });
+	      });
+
 	      _mindful2.default.set('socket', _socket2.default.connect());
 	      _mindful2.default.get('socket').emit('join', _mindful2.default.get('roomName'));
+	      _mindful2.default.get('socket').on('message', _mindful2.default.get('addNewMessage'));
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -35153,8 +35161,20 @@
 	          return allMessages;
 	        });
 	      });
-
-	      _mindful2.default.get('socket').emit('message', { author: 'dad', text: 'mom' });
+	    }
+	  }, {
+	    key: 'sendMessage',
+	    value: function sendMessage(e) {
+	      e.preventDefault();
+	      var messageText = document.getElementById('messageText').value;
+	      if (messageText) {
+	        var message = {};
+	        message.author = 'Me';
+	        message.text = messageText;
+	        _mindful2.default.get('socket').emit('message', message);
+	        // mindful.get('addNewMessage')(message);
+	      }
+	      document.getElementById('messageText').value = '';
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -35179,8 +35199,8 @@
 	          { className: 'SubmitMessage' },
 	          _react2.default.createElement(
 	            'form',
-	            null,
-	            _react2.default.createElement('input', { type: 'text' }),
+	            { onSubmit: this.sendMessage },
+	            _react2.default.createElement('input', { type: 'text', id: 'messageText' }),
 	            _react2.default.createElement('input', { type: 'submit' })
 	          )
 	        )

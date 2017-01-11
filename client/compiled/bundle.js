@@ -35237,18 +35237,16 @@
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    message.author ? _react2.default.createElement(
+	    _react2.default.createElement(
 	      'h5',
 	      { className: 'MessageAuthor' },
 	      message.author + ':'
-	    ) : undefined,
-	    message.author ? _react2.default.createElement(
+	    ),
+	    _react2.default.createElement(
 	      'div',
 	      { className: 'MessageText' },
-	      ' ',
-	      message.text,
-	      ' '
-	    ) : undefined
+	      message.text
+	    )
 	  );
 	};
 

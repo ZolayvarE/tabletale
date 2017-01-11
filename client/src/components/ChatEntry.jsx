@@ -5,8 +5,12 @@ const ChatEntry = (props) => {
   let message = props.message;
   return (
     <div>
-      { (message.author ? <h5 className='MessageAuthor'>{ message.author + ':' }</h5> : undefined ) }
-      { (message.author ? <div className='MessageText'> { message.text } </div> : undefined ) }
+      <h5 className='MessageAuthor'>
+        { message.author + ':' }
+      </h5>
+      <div className='MessageText'> 
+        { message.text } 
+      </div>
     </div>
   );
 };

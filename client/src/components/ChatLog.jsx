@@ -31,13 +31,13 @@ class ChatLog extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="ChatBox">
         <div>
           { mindful.get('messages').map((message, index) => {
             return (<ChatEntry message={message} key={index} />);
           }) }
         </div>
-        <div>
+        <div className="SubmitMessage">
           <form>
             <input type='text'>
             </input>

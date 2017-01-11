@@ -90,10 +90,17 @@ a {
   height: 100%;
 }
 
-.Chat {
-  width: 30%;
+.ChatBox {
+  padding: 10px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
 }
 
+.SubmitMessage {
+  display: flex;
+  justify-content: space-around;
+}
 
 
 

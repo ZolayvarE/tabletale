@@ -35166,7 +35166,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'ChatBox' },
 	        _react2.default.createElement(
 	          'div',
 	          null,
@@ -35176,7 +35176,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'SubmitMessage' },
 	          _react2.default.createElement(
 	            'form',
 	            null,
